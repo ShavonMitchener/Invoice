@@ -95,31 +95,31 @@ table.items {
   vertical-align: top;
 }
 
-/* COLUMN WIDTHS - SERVICE TABLE */
+/* SERVICE TABLE - Make description wider, amount narrower */
 #serviceTable .items th:first-child,
 #serviceTable .items td:first-child {
-  width: 80%;
+  width: 80% !important;
 }
 
 #serviceTable .items th:last-child,
 #serviceTable .items td:last-child {
-  width: 20%;
+  width: 20% !important;
 }
 
-/* COLUMN WIDTHS - PARTS TABLE */
+/* PARTS TABLE - QTY small, description wide, amount narrow */
 #partsTable .items th:first-child,
 #partsTable .items td:first-child {
-  width: 15%;
+  width: 15% !important;
 }
 
 #partsTable .items th:nth-child(2),
 #partsTable .items td:nth-child(2) {
-  width: 65%;
+  width: 65% !important;
 }
 
 #partsTable .items th:last-child,
 #partsTable .items td:last-child {
-  width: 20%;
+  width: 20% !important;
 }
 
 .items input {
@@ -128,6 +128,12 @@ table.items {
   text-align: center;
   font-size: 0.9rem;
   padding: 4px;
+}
+
+/* AMOUNT INPUTS - Make them smaller */
+.s-amt, .amt {
+  width: 80% !important;
+  text-align: center;
 }
 
 /* TEXTAREA STYLES INSIDE TABLES - AUTO-EXPANDING */
@@ -307,7 +313,7 @@ button {
   #serviceTable .items td:first-child,
   #partsTable .items th:nth-child(2),
   #partsTable .items td:nth-child(2) {
-    width: auto;
+    width: auto !important;
   }
 }
 

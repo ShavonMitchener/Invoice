@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mitchy Quick Auto - Invoice</title>
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="invoice-container">
@@ -21,17 +21,35 @@
     </div>
 
     <div class="info">
-      <div><label>Invoice No:</label> <span id="invoiceNo">001</span></div>
-      <div><label>Date:</label> <span id="date"></span></div>
-      <div><label>Customer Name:</label> <textarea id="custName" placeholder="Enter name" rows="1"></textarea></div>
-      <div><label>Vehicle:</label> <textarea id="vehicle" placeholder="Enter vehicle" rows="1"></textarea></div>
-      <div><label>From:</label> <textarea id="fromName" placeholder="Staff name" rows="1"></textarea></div>
+      <div>
+        <label>Invoice No:</label>
+        <span id="invoiceNo">001</span>
+      </div>
+      <div>
+        <label>Date:</label>
+        <span id="date"></span>
+      </div>
+      <div>
+        <label>Customer Name:</label>
+        <textarea id="custName" placeholder="Enter name" rows="1"></textarea>
+      </div>
+      <div>
+        <label>Vehicle:</label>
+        <textarea id="vehicle" placeholder="Enter vehicle" rows="1"></textarea>
+      </div>
+      <div>
+        <label>From:</label>
+        <textarea id="fromName" placeholder="Staff name" rows="1"></textarea>
+      </div>
     </div>
 
     <h3>Service</h3>
-    <table class="items">
+    <table class="items" id="serviceTable">
       <thead>
-        <tr><th>DESCRIPTION</th><th>AMOUNT</th></tr>
+        <tr>
+          <th>DESCRIPTION</th>
+          <th>AMOUNT</th>
+        </tr>
       </thead>
       <tbody id="serviceBody">
         <tr>
@@ -43,9 +61,13 @@
     <button id="addService">+ Add Service</button>
 
     <h3>Parts</h3>
-    <table class="items">
+    <table class="items" id="partsTable">
       <thead>
-        <tr><th>QTY</th><th>DESCRIPTION</th><th>AMOUNT</th></tr>
+        <tr>
+          <th>QTY</th>
+          <th>DESCRIPTION</th>
+          <th>AMOUNT</th>
+        </tr>
       </thead>
       <tbody id="partsBody">
         <tr>
@@ -69,15 +91,15 @@
     </div>
 
     <div class="actions">
-      <button id="saveBtn">💾 Save Receipt</button>
-      <button id="printBtn">🖨️ Print Invoice</button>
-      <button id="newBtn">➕ New Invoice</button>
-      <button id="resetBtn">🧹 Reset Invoice No.</button>
+      <button id="saveBtn">Save Receipt</button>
+      <button id="printBtn">Print Invoice</button>
+      <button id="newBtn">New Invoice</button>
+      <button id="resetBtn">Reset Invoice No.</button>
     </div>
   </div>
 
   <div class="search-container">
-    <h3>🔍 Search Old Receipts</h3>
+    <h3>Search Old Receipts</h3>
     <textarea id="searchInput" placeholder="Enter invoice number or customer name" rows="1"></textarea>
     <button id="searchBtn">Search</button>
     <div id="searchResults"></div>

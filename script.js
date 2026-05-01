@@ -1,31 +1,30 @@
 // --- BASIC SETUP ---
 document.getElementById("date").textContent = new Date().toLocaleDateString();
 let invoiceNo = localStorage.getItem("invoiceNo") || 1;
-document.getElementById("invoiceNo").textContent = invoiceNo.toString().padStart(3,"0");
+document.getElementById("invoiceNo").textContent = invoiceNo.toString().padStart(3, "0");
 
-// --- AUTO-EXPAND TEXTAREA FUNCTION ---
+// --- AUTO-EXPAND TEXTAREA ---
 function autoExpand(textarea) {
-  textarea.style.height = 'auto';
-  textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+  textarea.style.height = "auto";
+  textarea.style.height = Math.min(textarea.scrollHeight, 100) + "px";
 }
 
-// --- SETUP AUTO-EXPAND FOR ALL TEXTAREAS ---
-function setupAutoExpandOnTextareas() {
-  document.querySelectorAll('textarea').forEach(textarea => {
-    if (!textarea.hasListener) {
-      textarea.addEventListener('input', function() {
-        autoExpand(this);
-      });
-      textarea.hasListener = true;
-    }
-    autoExpand(textarea);
+function setupAutoExpand(element) {
+  element.addEventListener("input", function() {
+    autoExpand(this);
   });
+  autoExpand(element);
 }
+
+// --- SETUP ALL EXISTING TEXTAREAS ---
+document.querySelectorAll("textarea").forEach(setupAutoExpand);
 
 // --- CALCULATE TOTALS ---
 function calculateTotals() {
   let serviceTotal = 0;
-  document.querySelectorAll(".s-amt").forEach(i => serviceTotal += parseFloat(i.value) || 0);
+  document.querySelectorAll(".s-amt").forEach(input => {
+    serviceTotal += parseFloat(input.value) || 0;
+  });
 
   let partsTotal = 0;
   document.querySelectorAll("#partsBody tr").forEach(row => {
@@ -34,102 +33,58 @@ function calculateTotals() {
     partsTotal += qty * amt;
   });
 
-  const grand = serviceTotal + partsTotal;
   document.getElementById("serviceTotal").textContent = serviceTotal.toFixed(2);
   document.getElementById("partsTotal").textContent = partsTotal.toFixed(2);
-  document.getElementById("grandTotal").textContent = grand.toFixed(2);
+  document.getElementById("grandTotal").textContent = (serviceTotal + partsTotal).toFixed(2);
 }
 
-// --- FUNCTION TO LOAD RECEIPT INTO FORM ---
-function loadReceiptIntoForm(receipt) {
-  const serviceBody = document.getElementById("serviceBody");
-  const partsBody = document.getElementById("partsBody");
+// --- ADD SERVICE ROW (SAME PATTERN AS PARTS) ---
+document.getElementById("addService").addEventListener("click", function() {
+  const tbody = document.getElementById("serviceBody");
+  const newRow = document.createElement("tr");
   
-  serviceBody.innerHTML = "";
-  partsBody.innerHTML = "";
+  newRow.innerHTML = `
+    <td><textarea class="s-desc" placeholder="Service description" rows="2"></textarea></td>
+    <td><input type="number" class="s-amt" min="0" step="0.01" value="0.00"></td>
+  `;
   
-  document.getElementById("custName").value = receipt.customer || "";
-  document.getElementById("vehicle").value = receipt.vehicle || "";
-  document.getElementById("fromName").value = receipt.fromStaff || receipt.from || "";
-  document.getElementById("signedBy").value = receipt.signedBy || "";
+  tbody.appendChild(newRow);
   
-  const services = receipt.services || receipt.service || [];
-  if (services.length > 0) {
-    services.forEach(service => {
-      const r = document.createElement("tr");
-      r.innerHTML = `<tr><textarea class="s-desc" placeholder="Service description" rows="2">${escapeHtml(service.desc)}</textarea></td>
-                     <td><input type="number" class="s-amt" min="0" step="0.01" value="${service.amt || service.amount || 0}"></td>`;
-      serviceBody.appendChild(r);
-      r.querySelectorAll("textarea, input").forEach(i => i.addEventListener("input", calculateTotals));
-    });
-  } else {
-    const r = document.createElement("tr");
-    r.innerHTML = `<td><textarea class="s-desc" placeholder="Service description" rows="2"></textarea></td>
-                   <td><input type="number" class="s-amt" min="0" step="0.01" value="0.00"></td>`;
-    serviceBody.appendChild(r);
-    r.querySelectorAll("textarea, input").forEach(i => i.addEventListener("input", calculateTotals));
-  }
+  const newTextarea = newRow.querySelector("textarea");
+  setupAutoExpand(newTextarea);
   
-  const parts = receipt.parts || [];
-  if (parts.length > 0) {
-    parts.forEach(part => {
-      const r = document.createElement("tr");
-      r.innerHTML = `<td><input type="number" class="qty" min="1" value="${part.qty || 1}"></td>
-                     <td><textarea class="desc" placeholder="Part name" rows="2">${escapeHtml(part.desc)}</textarea></td>
-                     <td><input type="number" class="amt" min="0" step="0.01" value="${part.amt || part.amount || 0}"></td>`;
-      partsBody.appendChild(r);
-      r.querySelectorAll("textarea, input").forEach(i => i.addEventListener("input", calculateTotals));
-    });
-  } else {
-    const r = document.createElement("tr");
-    r.innerHTML = `<tr><input type="number" class="qty" min="1" value="1"></td>
-                   <td><textarea class="desc" placeholder="Part name" rows="2"></textarea></td>
-                   <td><input type="number" class="amt" min="0" step="0.01" value="0.00"></td>`;
-    partsBody.appendChild(r);
-    r.querySelectorAll("textarea, input").forEach(i => i.addEventListener("input", calculateTotals));
-  }
-  
-  setupAutoExpandOnTextareas();
-  calculateTotals();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  alert(`✅ Loaded invoice #${receipt.invoiceNo}`);
-}
-
-function escapeHtml(text) {
-  if (!text) return "";
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-// --- ADD SERVICE ROW ---
-document.getElementById("addService").addEventListener("click", () => {
-  const r = document.createElement("tr");
-  r.innerHTML = `<tr><textarea class="s-desc" placeholder="Service description" rows="2"></textarea></td>
-                 <tr><input type="number" class="s-amt" min="0" step="0.01" value="0.00"></td>`;
-  document.getElementById("serviceBody").appendChild(r);
-  r.querySelectorAll("textarea, input").forEach(i => i.addEventListener("input", calculateTotals));
-  setupAutoExpandOnTextareas();
+  newRow.querySelector(".s-amt").addEventListener("input", calculateTotals);
   calculateTotals();
 });
 
 // --- ADD PART ROW ---
-document.getElementById("addPart").addEventListener("click", () => {
-  const r = document.createElement("tr");
-  r.innerHTML = `<td><input type="number" class="qty" min="1" value="1"></td>
-                 <td><textarea class="desc" placeholder="Part name" rows="2"></textarea></td>
-                 <td><input type="number" class="amt" min="0" step="0.01" value="0.00"></td>`;
-  document.getElementById("partsBody").appendChild(r);
-  r.querySelectorAll("textarea, input").forEach(i => i.addEventListener("input", calculateTotals));
-  setupAutoExpandOnTextareas();
+document.getElementById("addPart").addEventListener("click", function() {
+  const tbody = document.getElementById("partsBody");
+  const newRow = document.createElement("tr");
+  
+  newRow.innerHTML = `
+    <td><input type="number" class="qty" min="1" value="1"></td>
+    <td><textarea class="desc" placeholder="Part name" rows="2"></textarea></td>
+    <td><input type="number" class="amt" min="0" step="0.01" value="0.00"></td>
+  `;
+  
+  tbody.appendChild(newRow);
+  
+  const newTextarea = newRow.querySelector("textarea");
+  setupAutoExpand(newTextarea);
+  
+  newRow.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", calculateTotals);
+  });
   calculateTotals();
 });
 
 // --- SAVE RECEIPT ---
-document.getElementById("saveBtn").addEventListener("click", () => {
+document.getElementById("saveBtn").addEventListener("click", function() {
   calculateTotals();
+  
   const receipt = {
-    invoiceNo: invoiceNo.toString().padStart(3,"0"),
+    invoiceNo: invoiceNo.toString().padStart(3, "0"),
     date: document.getElementById("date").textContent,
     customer: document.getElementById("custName").value.trim(),
     vehicle: document.getElementById("vehicle").value.trim(),
@@ -157,22 +112,22 @@ document.getElementById("saveBtn").addEventListener("click", () => {
     });
   });
 
-  let receipts = JSON.parse(localStorage.getItem("receipts") || "[]");
+  const receipts = JSON.parse(localStorage.getItem("receipts") || "[]");
   receipts.push(receipt);
   localStorage.setItem("receipts", JSON.stringify(receipts));
-
-  alert("✅ Receipt saved successfully!");
+  
+  alert("Receipt saved successfully!");
 });
 
 // --- SEARCH RECEIPTS ---
-document.getElementById("searchBtn").addEventListener("click", () => {
+document.getElementById("searchBtn").addEventListener("click", function() {
   const query = document.getElementById("searchInput").value.trim().toLowerCase();
   const resultsArea = document.getElementById("searchResults");
   resultsArea.innerHTML = "";
+  
   const receipts = JSON.parse(localStorage.getItem("receipts") || "[]");
-
-  const matches = receipts.filter(r =>
-    r.invoiceNo.toLowerCase().includes(query) ||
+  const matches = receipts.filter(r => 
+    r.invoiceNo.toLowerCase().includes(query) || 
     r.customer.toLowerCase().includes(query)
   );
 
@@ -181,31 +136,67 @@ document.getElementById("searchBtn").addEventListener("click", () => {
     return;
   }
 
-  matches.forEach((r) => {
+  matches.forEach(r => {
     const div = document.createElement("div");
     div.className = "found-receipt";
-    
     div.innerHTML = `
       <strong>Invoice #${r.invoiceNo}</strong> | ${r.date}<br>
       Customer: ${r.customer} | Vehicle: ${r.vehicle}<br>
-      From: ${r.fromStaff || ''} | Signed: ${r.signedBy || 'N/A'}<br>
+      From: ${r.fromStaff || ""} | Signed: ${r.signedBy || "N/A"}<br>
       <strong>Service Total: $${r.serviceTotal}</strong> | <strong>Parts Total: $${r.partsTotal}</strong><br>
       <strong>Grand Total: $${r.grandTotal}</strong><br>
-      <button class="viewBtn">📄 View Full Details</button>
-      <button class="deleteBtn">🗑️ Delete</button>
-      <hr>`;
+      <button class="viewBtn">View Full Details</button>
+      <button class="deleteBtn">Delete</button>
+      <hr>
+    `;
 
-    div.querySelector(".viewBtn").addEventListener("click", () => {
-      loadReceiptIntoForm(r);
+    div.querySelector(".viewBtn").addEventListener("click", function() {
+      // Load receipt into form
+      document.getElementById("custName").value = r.customer || "";
+      document.getElementById("vehicle").value = r.vehicle || "";
+      document.getElementById("fromName").value = r.fromStaff || "";
+      document.getElementById("signedBy").value = r.signedBy || "";
+      
+      const serviceBody = document.getElementById("serviceBody");
+      const partsBody = document.getElementById("partsBody");
+      serviceBody.innerHTML = "";
+      partsBody.innerHTML = "";
+      
+      r.services.forEach(s => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td><textarea class="s-desc" rows="2">${escapeHtml(s.desc)}</textarea></td>
+          <td><input type="number" class="s-amt" min="0" step="0.01" value="${s.amt}"></td>
+        `;
+        serviceBody.appendChild(row);
+        setupAutoExpand(row.querySelector("textarea"));
+        row.querySelector(".s-amt").addEventListener("input", calculateTotals);
+      });
+      
+      r.parts.forEach(p => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td><input type="number" class="qty" min="1" value="${p.qty}"></td>
+          <td><textarea class="desc" rows="2">${escapeHtml(p.desc)}</textarea></td>
+          <td><input type="number" class="amt" min="0" step="0.01" value="${p.amt}"></td>
+        `;
+        partsBody.appendChild(row);
+        setupAutoExpand(row.querySelector("textarea"));
+        row.querySelectorAll("input").forEach(i => i.addEventListener("input", calculateTotals));
+      });
+      
+      calculateTotals();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      alert("Loaded invoice #" + r.invoiceNo);
     });
 
-    div.querySelector(".deleteBtn").addEventListener("click", () => {
-      if(confirm(`Delete invoice #${r.invoiceNo}?`)){
+    div.querySelector(".deleteBtn").addEventListener("click", function() {
+      if (confirm("Delete invoice #" + r.invoiceNo + "?")) {
         let allReceipts = JSON.parse(localStorage.getItem("receipts") || "[]");
         allReceipts = allReceipts.filter(x => x.invoiceNo !== r.invoiceNo);
         localStorage.setItem("receipts", JSON.stringify(allReceipts));
         div.remove();
-        alert("🗑️ Invoice deleted.");
+        alert("Invoice deleted.");
       }
     });
 
@@ -213,21 +204,40 @@ document.getElementById("searchBtn").addEventListener("click", () => {
   });
 });
 
-// --- PRINT + NEW INVOICE ---
-document.getElementById("printBtn").addEventListener("click", () => window.print());
-document.getElementById("newBtn").addEventListener("click", () => {
+function escapeHtml(text) {
+  if (!text) return "";
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// --- OTHER BUTTONS ---
+document.getElementById("printBtn").addEventListener("click", function() {
+  window.print();
+});
+
+document.getElementById("newBtn").addEventListener("click", function() {
   invoiceNo++;
   localStorage.setItem("invoiceNo", invoiceNo);
   window.location.reload();
 });
 
-document.getElementById("resetBtn").addEventListener("click", () => {
-  if(confirm("Reset invoice number back to 001?")){
+document.getElementById("resetBtn").addEventListener("click", function() {
+  if (confirm("Reset invoice number back to 001?")) {
     localStorage.removeItem("invoiceNo");
     window.location.reload();
   }
 });
 
-// --- INITIAL SETUP ---
-setupAutoExpandOnTextareas();
+// --- INITIAL CALCULATION ---
 calculateTotals();
+
+// --- CLEAR ANY EXTRA TEXT OUTSIDE TABLES (FIX FOR SERVICE SECTION) ---
+// This removes any stray text nodes that might have been added
+document.querySelectorAll("#serviceBody").forEach(body => {
+  body.childNodes.forEach(node => {
+    if (node.nodeType === 3 && node.textContent.trim() !== "") {
+      node.remove();
+    }
+  });
+});

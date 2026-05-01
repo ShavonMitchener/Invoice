@@ -3,6 +3,22 @@ document.getElementById("date").textContent = new Date().toLocaleDateString();
 let invoiceNo = localStorage.getItem("invoiceNo") || 1;
 document.getElementById("invoiceNo").textContent = invoiceNo.toString().padStart(3,"0");
 
+// --- AUTO-EXPAND TEXTAREA FUNCTION ---
+function autoExpand(textarea) {
+  textarea.style.height = 'auto';
+  textarea.style.height = textarea.scrollHeight + 'px';
+}
+
+// --- SETUP AUTO-EXPAND FOR ALL TEXTAREAS ---
+function setupAutoExpandOnTextareas() {
+  document.querySelectorAll('textarea').forEach(textarea => {
+    textarea.addEventListener('input', function() {
+      autoExpand(this);
+    });
+    autoExpand(textarea);
+  });
+}
+
 // --- CALCULATE TOTALS ---
 function calculateTotals() {
   let serviceTotal = 0;
@@ -21,25 +37,46 @@ function calculateTotals() {
   document.getElementById("grandTotal").textContent = grand.toFixed(2);
 }
 
-// --- ADD ROWS ---
+// --- ADD SERVICE ROW (with textarea) ---
 document.getElementById("addService").addEventListener("click",()=>{
   const r=document.createElement("tr");
-  r.innerHTML=`<td><input type="text" class="s-desc" placeholder="Service description"></td>
+  r.innerHTML=`<td><textarea class="s-desc" placeholder="Service description" rows="2"></textarea></td>
                <td><input type="number" class="s-amt" min="0" step="0.01" value="0.00"></td>`;
   document.getElementById("serviceBody").appendChild(r);
-  r.querySelectorAll("input").forEach(i=>i.addEventListener("input",calculateTotals));
+  
+  // Setup auto-expand for the new textarea
+  const newTextarea = r.querySelector('.s-desc');
+  newTextarea.addEventListener('input', function() {
+    autoExpand(this);
+  });
+  autoExpand(newTextarea);
+  
+  // Setup calculation for amount input
+  r.querySelector(".s-amt").addEventListener("input", calculateTotals);
+  calculateTotals();
 });
 
+// --- ADD PART ROW (with textarea for description) ---
 document.getElementById("addPart").addEventListener("click",()=>{
   const r=document.createElement("tr");
   r.innerHTML=`<td><input type="number" class="qty" min="1" value="1"></td>
-               <td><input type="text" class="desc" placeholder="Part name"></td>
+               <td><textarea class="desc" placeholder="Part name" rows="2"></textarea></td>
                <td><input type="number" class="amt" min="0" step="0.01" value="0.00"></td>`;
   document.getElementById("partsBody").appendChild(r);
-  r.querySelectorAll("input").forEach(i=>i.addEventListener("input",calculateTotals));
+  
+  // Setup auto-expand for the new textarea
+  const newTextarea = r.querySelector('.desc');
+  newTextarea.addEventListener('input', function() {
+    autoExpand(this);
+  });
+  autoExpand(newTextarea);
+  
+  // Setup calculations for inputs
+  r.querySelectorAll("input").forEach(i=>i.addEventListener("input", calculateTotals));
+  calculateTotals();
 });
 
-// --- SAVE RECEIPT ---
+// --- SAVE RECEIPT (updated to handle textareas) ---
 document.getElementById("saveBtn").addEventListener("click",()=>{
   calculateTotals();
   const receipt = {
@@ -58,17 +95,19 @@ document.getElementById("saveBtn").addEventListener("click",()=>{
     }
   };
 
+  // Save service rows (now using textareas)
   document.querySelectorAll("#serviceBody tr").forEach(row=>{
-    const desc=row.querySelector(".s-desc").value;
-    const amt=row.querySelector(".s-amt").value;
-    receipt.service.push({desc,amt});
+    const desc = row.querySelector(".s-desc").value;
+    const amt = row.querySelector(".s-amt").value;
+    receipt.service.push({desc, amt});
   });
 
+  // Save parts rows (now using textareas for description)
   document.querySelectorAll("#partsBody tr").forEach(row=>{
-    const qty=row.querySelector(".qty").value;
-    const desc=row.querySelector(".desc").value;
-    const amt=row.querySelector(".amt").value;
-    receipt.parts.push({qty,desc,amt});
+    const qty = row.querySelector(".qty").value;
+    const desc = row.querySelector(".desc").value;
+    const amt = row.querySelector(".amt").value;
+    receipt.parts.push({qty, desc, amt});
   });
 
   let receipts = JSON.parse(localStorage.getItem("receipts") || "[]");
@@ -78,7 +117,7 @@ document.getElementById("saveBtn").addEventListener("click",()=>{
   alert("✅ Receipt saved successfully!");
 });
 
-// --- SEARCH RECEIPTS ---
+// --- SEARCH RECEIPTS (updated to show full descriptions) ---
 document.getElementById("searchBtn").addEventListener("click",()=>{
   const query = document.getElementById("searchInput").value.trim().toLowerCase();
   const resultsArea = document.getElementById("searchResults");
@@ -98,20 +137,70 @@ document.getElementById("searchBtn").addEventListener("click",()=>{
   matches.forEach((r, index)=>{
     const div=document.createElement("div");
     div.className="found-receipt";
+    
+    // Create service list summary
+    let serviceList = "";
+    if (r.service && r.service.length > 0) {
+      serviceList = "<br><strong>Services:</strong><br>";
+      r.service.forEach(s => {
+        serviceList += `• ${s.desc.substring(0, 50)}${s.desc.length > 50 ? '...' : ''} - $${s.amt}<br>`;
+      });
+    }
+    
+    // Create parts list summary
+    let partsList = "";
+    if (r.parts && r.parts.length > 0) {
+      partsList = "<br><strong>Parts:</strong><br>";
+      r.parts.forEach(p => {
+        partsList += `• ${p.qty}x ${p.desc.substring(0, 50)}${p.desc.length > 50 ? '...' : ''} - $${p.amt}<br>`;
+      });
+    }
+    
     div.innerHTML=`
       <strong>Invoice #${r.invoiceNo}</strong> | ${r.date}<br>
       Customer: ${r.customer} | Vehicle: ${r.vehicle}<br>
-      From: ${r.from}<br>
-      Service Total: ${r.totals.service} | Parts Total: ${r.totals.parts} | Grand Total: ${r.totals.grand}<br>
-      <button class="viewBtn">View</button>
+      From: ${r.from} | Signed: ${r.signedBy || 'N/A'}<br>
+      ${serviceList}
+      ${partsList}
+      <strong>Service Total: $${r.totals.service}</strong> | <strong>Parts Total: $${r.totals.parts}</strong><br>
+      <strong>Grand Total: $${r.totals.grand}</strong><br>
+      <button class="viewBtn">📄 View Full Details</button>
       <button class="deleteBtn">🗑️ Delete</button>
       <hr>`;
 
-    // VIEW button
+    // VIEW button - show full details
     div.querySelector(".viewBtn").addEventListener("click",()=>{
-      alert(
-        `Invoice #${r.invoiceNo}\nCustomer: ${r.customer}\nVehicle: ${r.vehicle}\nService Total: ${r.totals.service}\nParts Total: ${r.totals.parts}\nGrand Total: ${r.totals.grand}`
-      );
+      let fullDetails = `INVOICE #${r.invoiceNo}\n`;
+      fullDetails += `Date: ${r.date}\n`;
+      fullDetails += `Customer: ${r.customer}\n`;
+      fullDetails += `Vehicle: ${r.vehicle}\n`;
+      fullDetails += `From: ${r.from}\n`;
+      fullDetails += `Signed by: ${r.signedBy || 'N/A'}\n\n`;
+      
+      fullDetails += `=== SERVICES ===\n`;
+      if (r.service && r.service.length > 0) {
+        r.service.forEach((s, i) => {
+          fullDetails += `${i+1}. ${s.desc}\n   Amount: $${s.amt}\n`;
+        });
+      } else {
+        fullDetails += `None\n`;
+      }
+      
+      fullDetails += `\n=== PARTS ===\n`;
+      if (r.parts && r.parts.length > 0) {
+        r.parts.forEach((p, i) => {
+          fullDetails += `${i+1}. ${p.qty}x ${p.desc}\n   Amount: $${p.amt}\n`;
+        });
+      } else {
+        fullDetails += `None\n`;
+      }
+      
+      fullDetails += `\n=== TOTALS ===\n`;
+      fullDetails += `Service Total: $${r.totals.service}\n`;
+      fullDetails += `Parts Total: $${r.totals.parts}\n`;
+      fullDetails += `Grand Total: $${r.totals.grand}\n`;
+      
+      alert(fullDetails);
     });
 
     // DELETE button
@@ -144,3 +233,33 @@ document.getElementById("resetBtn").addEventListener("click",()=>{
     window.location.reload();
   }
 });
+
+// --- SETUP AUTO-EXPAND FOR EXISTING TEXTAREAS ON PAGE LOAD ---
+setupAutoExpandOnTextareas();
+
+// --- OBSERVER FOR DYNAMICALLY ADDED TEXTAREAS (for any other dynamic content) ---
+const observer = new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutation) {
+    mutation.addedNodes.forEach(function(node) {
+      if (node.nodeType === 1 && node.querySelectorAll) {
+        node.querySelectorAll('textarea').forEach(textarea => {
+          if (!textarea.hasExpandListener) {
+            textarea.addEventListener('input', function() {
+              autoExpand(this);
+            });
+            textarea.hasExpandListener = true;
+            autoExpand(textarea);
+          }
+        });
+      }
+    });
+  });
+});
+
+observer.observe(document.body, {
+  childList: true,
+  subtree: true
+});
+
+// --- INITIAL CALCULATION ---
+calculateTotals();

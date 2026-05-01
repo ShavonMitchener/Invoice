@@ -1,25 +1,7 @@
-// --- GOOGLE SHEETS CONFIGURATION ---
-var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzvl_9L2ZTnbOvXbWNsS3OmvufpBuOU0LE3smhocZ_qgNS1EMyN0JWfcP2uOrQ1JCAh/exec';
-
 // --- BASIC SETUP ---
 document.getElementById("date").textContent = new Date().toLocaleDateString();
 let invoiceNo = localStorage.getItem("invoiceNo") || 1;
 document.getElementById("invoiceNo").textContent = invoiceNo.toString().padStart(3,"0");
-
-// --- SYNC STATUS DISPLAY ---
-function showSyncStatus(message, type = 'success') {
-  let statusDiv = document.querySelector('.sync-status');
-  if (!statusDiv) {
-    statusDiv = document.createElement('div');
-    statusDiv.className = 'sync-status';
-    document.body.appendChild(statusDiv);
-  }
-  statusDiv.textContent = message;
-  statusDiv.className = `sync-status ${type}`;
-  setTimeout(() => {
-    if (statusDiv) statusDiv.remove();
-  }, 3000);
-}
 
 // --- AUTO-EXPAND TEXTAREA FUNCTION ---
 function autoExpand(textarea) {
@@ -30,14 +12,11 @@ function autoExpand(textarea) {
 // --- SETUP AUTO-EXPAND FOR ALL TEXTAREAS ---
 function setupAutoExpandOnTextareas() {
   document.querySelectorAll('textarea').forEach(textarea => {
-    textarea.removeEventListener('input', autoExpandHandler);
-    textarea.addEventListener('input', autoExpandHandler);
+    textarea.addEventListener('input', function() {
+      autoExpand(this);
+    });
     autoExpand(textarea);
   });
-}
-
-function autoExpandHandler() {
-  autoExpand(this);
 }
 
 // --- CALCULATE TOTALS ---
@@ -105,7 +84,7 @@ function loadReceiptIntoForm(receipt) {
     });
   } else {
     const r = document.createElement("tr");
-    r.innerHTML = `<tr><input type="number" class="qty" min="1" value="1"></td>
+    r.innerHTML = `<td><input type="number" class="qty" min="1" value="1"></td>
                    <td><textarea class="desc" placeholder="Part name" rows="1"></textarea></td>
                    <td><input type="number" class="amt" min="0" step="0.01" value="0.00"></td>`;
     partsBody.appendChild(r);
@@ -115,11 +94,13 @@ function loadReceiptIntoForm(receipt) {
   
   calculateTotals();
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  showSyncStatus(`✅ Loaded invoice #${receipt.invoiceNo}`, 'success');
+  alert(`✅ Loaded invoice #${receipt.invoiceNo}`);
 }
 
 function setupNewTextarea(textarea) {
-  textarea.addEventListener('input', autoExpandHandler);
+  textarea.addEventListener('input', function() {
+    autoExpand(this);
+  });
   autoExpand(textarea);
 }
 
@@ -144,7 +125,7 @@ document.getElementById("addService").addEventListener("click", () => {
 // --- ADD PART ROW ---
 document.getElementById("addPart").addEventListener("click", () => {
   const r = document.createElement("tr");
-  r.innerHTML = `<tr><input type="number" class="qty" min="1" value="1"></td>
+  r.innerHTML = `<td><input type="number" class="qty" min="1" value="1"></td>
                  <td><textarea class="desc" placeholder="Part name" rows="1"></textarea></td>
                  <td><input type="number" class="amt" min="0" step="0.01" value="0.00"></td>`;
   document.getElementById("partsBody").appendChild(r);
@@ -153,11 +134,11 @@ document.getElementById("addPart").addEventListener("click", () => {
   calculateTotals();
 });
 
-// --- GET CURRENT RECEIPT DATA ---
-function getCurrentReceiptData() {
+// --- SAVE RECEIPT ---
+document.getElementById("saveBtn").addEventListener("click", () => {
   calculateTotals();
-  return {
-    invoiceNo: invoiceNo.toString().padStart(3, "0"),
+  const receipt = {
+    invoiceNo: invoiceNo.toString().padStart(3,"0"),
     date: document.getElementById("date").textContent,
     customer: document.getElementById("custName").value.trim(),
     vehicle: document.getElementById("vehicle").value.trim(),
@@ -169,15 +150,14 @@ function getCurrentReceiptData() {
     services: [],
     parts: []
   };
-}
 
-function collectServicesAndParts(receipt) {
   document.querySelectorAll("#serviceBody tr").forEach(row => {
     receipt.services.push({
       desc: row.querySelector(".s-desc").value,
       amt: row.querySelector(".s-amt").value
     });
   });
+
   document.querySelectorAll("#partsBody tr").forEach(row => {
     receipt.parts.push({
       qty: row.querySelector(".qty").value,
@@ -185,86 +165,11 @@ function collectServicesAndParts(receipt) {
       amt: row.querySelector(".amt").value
     });
   });
-  return receipt;
-}
 
-// --- SAVE TO LOCALSTORAGE ---
-function saveToLocalStorage(receipt) {
   let receipts = JSON.parse(localStorage.getItem("receipts") || "[]");
   receipts.push(receipt);
   localStorage.setItem("receipts", JSON.stringify(receipts));
-}
 
-// --- SAVE TO GOOGLE SHEETS ---
-async function saveToGoogleSheets(receipt) {
-  try {
-    showSyncStatus('☁️ Syncing to cloud...', 'syncing');
-    await fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(receipt)
-    });
-    showSyncStatus('✅ Synced to cloud!', 'success');
-    return true;
-  } catch (error) {
-    console.error('Google Sheets sync failed:', error);
-    showSyncStatus('⚠️ Cloud sync failed (saved locally)', 'error');
-    return false;
-  }
-}
-
-// --- LOAD FROM GOOGLE SHEETS ---
-async function loadFromGoogleSheets() {
-  try {
-    showSyncStatus('☁️ Loading from cloud...', 'syncing');
-    const response = await fetch(GOOGLE_SCRIPT_URL);
-    const receipts = await response.json();
-    showSyncStatus(`✅ Loaded ${receipts.length} receipts from cloud`, 'success');
-    return receipts;
-  } catch (error) {
-    console.error('Failed to load from Google Sheets:', error);
-    showSyncStatus('⚠️ Could not load from cloud', 'error');
-    return null;
-  }
-}
-
-// --- MERGE RECEIPTS ---
-function mergeReceipts(cloudReceipts, localReceipts) {
-  if (!cloudReceipts || cloudReceipts.length === 0) return localReceipts;
-  
-  const merged = [...localReceipts];
-  cloudReceipts.forEach(cloudReceipt => {
-    const exists = merged.some(r => r.invoiceNo === cloudReceipt.invoiceNo);
-    if (!exists) {
-      merged.push(cloudReceipt);
-    }
-  });
-  return merged;
-}
-
-// --- SYNC BUTTON HANDLER ---
-document.getElementById("syncBtn").addEventListener("click", async () => {
-  showSyncStatus('☁️ Syncing with cloud...', 'syncing');
-  const cloudReceipts = await loadFromGoogleSheets();
-  if (cloudReceipts) {
-    const localReceipts = JSON.parse(localStorage.getItem("receipts") || "[]");
-    const merged = mergeReceipts(cloudReceipts, localReceipts);
-    localStorage.setItem("receipts", JSON.stringify(merged));
-    showSyncStatus(`✅ Synced! ${merged.length} total receipts`, 'success');
-    setTimeout(() => location.reload(), 1500);
-  }
-});
-
-// --- SAVE RECEIPT BUTTON ---
-document.getElementById("saveBtn").addEventListener("click", async () => {
-  calculateTotals();
-  let receipt = getCurrentReceiptData();
-  receipt = collectServicesAndParts(receipt);
-  
-  saveToLocalStorage(receipt);
-  await saveToGoogleSheets(receipt);
-  
   alert("✅ Receipt saved successfully!");
 });
 
@@ -292,7 +197,7 @@ document.getElementById("searchBtn").addEventListener("click", () => {
     div.innerHTML = `
       <strong>Invoice #${r.invoiceNo}</strong> | ${r.date}<br>
       Customer: ${r.customer} | Vehicle: ${r.vehicle}<br>
-      From: ${r.fromStaff || r.from || ''} | Signed: ${r.signedBy || 'N/A'}<br>
+      From: ${r.fromStaff || ''} | Signed: ${r.signedBy || 'N/A'}<br>
       <strong>Service Total: $${r.serviceTotal}</strong> | <strong>Parts Total: $${r.partsTotal}</strong><br>
       <strong>Grand Total: $${r.grandTotal}</strong><br>
       <button class="viewBtn">📄 View Full Details</button>
@@ -333,24 +238,6 @@ document.getElementById("resetBtn").addEventListener("click", () => {
   }
 });
 
-// --- AUTO LOAD CLOUD RECEIPTS ON STARTUP ---
-async function autoLoadCloudReceipts() {
-  const cloudReceipts = await loadFromGoogleSheets();
-  if (cloudReceipts && cloudReceipts.length > 0) {
-    const localReceipts = JSON.parse(localStorage.getItem("receipts") || "[]");
-    const merged = mergeReceipts(cloudReceipts, localReceipts);
-    if (merged.length > localReceipts.length) {
-      localStorage.setItem("receipts", JSON.stringify(merged));
-      console.log(`Auto-synced ${merged.length - localReceipts.length} new receipts from cloud`);
-    }
-  }
-}
-
-// --- SETUP AUTO-EXPAND FOR EXISTING TEXTAREAS ON PAGE LOAD ---
+// --- SETUP ---
 setupAutoExpandOnTextareas();
-
-// --- INITIAL CALCULATION ---
 calculateTotals();
-
-// --- AUTO LOAD FROM CLOUD ---
-autoLoadCloudReceipts();

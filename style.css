@@ -90,13 +90,14 @@ table.items {
   font-size: 0.85rem;
 }
 
-/* TABLE BORDERS - THESE CREATE THE BOXES */
+/* TABLE BORDERS - ALWAYS VISIBLE */
 .items th,
 .items td {
-  border: 1px solid #000;
+  border: 1px solid #000 !important;
   text-align: center;
   padding: 4px;
   vertical-align: top;
+  background-color: #fff;
 }
 
 /* COLUMN WIDTHS */
@@ -134,12 +135,12 @@ table.items {
   background: transparent;
 }
 
-/* TEXTAREA INSIDE TABLE - NO BORDER SO IT LOOKS CLEAN */
+/* TEXTAREA INSIDE TABLE - NO BORDER, BUT CELL BORDER SHOWS */
 .items textarea {
   width: 100%;
   border: none;
   padding: 4px;
-  margin: -4px;
+  margin: 0;
   background: transparent;
   font-family: 'Courier Prime', monospace;
   font-size: 0.85rem;
@@ -154,12 +155,12 @@ table.items {
   height: auto;
   max-height: 80px;
   overflow-y: auto;
+  outline: none;
 }
 
-/* Focus style for textareas inside table */
-.items textarea:focus {
-  outline: none;
-  background: #f9f9f9;
+/* Make sure textarea doesn't hide the cell border */
+.items td {
+  overflow: hidden;
 }
 
 /* GENERAL TEXTAREA STYLES */

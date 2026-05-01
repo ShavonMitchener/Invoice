@@ -95,6 +95,33 @@ table.items {
   vertical-align: top;
 }
 
+/* COLUMN WIDTHS - SERVICE TABLE */
+#serviceTable .items th:first-child,
+#serviceTable .items td:first-child {
+  width: 80%;
+}
+
+#serviceTable .items th:last-child,
+#serviceTable .items td:last-child {
+  width: 20%;
+}
+
+/* COLUMN WIDTHS - PARTS TABLE */
+#partsTable .items th:first-child,
+#partsTable .items td:first-child {
+  width: 15%;
+}
+
+#partsTable .items th:nth-child(2),
+#partsTable .items td:nth-child(2) {
+  width: 65%;
+}
+
+#partsTable .items th:last-child,
+#partsTable .items td:last-child {
+  width: 20%;
+}
+
 .items input {
   width: 90%;
   border: none;
@@ -122,28 +149,6 @@ table.items {
   min-height: 50px;
   height: auto;
   overflow: hidden;
-}
-
-/* Make description columns wider */
-.items td:first-child {
-  width: 70%;
-}
-
-.items td:last-child {
-  width: 30%;
-}
-
-/* For parts table - description column */
-.items td:nth-child(2) {
-  width: 60%;
-}
-
-.items td:first-child {
-  width: 15%;
-}
-
-.items td:last-child {
-  width: 25%;
 }
 
 /* GENERAL TEXTAREA STYLES - FOR TEXT WRAPPING */
@@ -297,9 +302,11 @@ button {
     width: 100%;
   }
   
-  /* Adjust table column widths for mobile */
-  .items td:first-child,
-  .items td:nth-child(2) {
+  /* Reset column widths for mobile */
+  #serviceTable .items th:first-child,
+  #serviceTable .items td:first-child,
+  #partsTable .items th:nth-child(2),
+  #partsTable .items td:nth-child(2) {
     width: auto;
   }
 }
@@ -337,7 +344,7 @@ button {
   }
 }
 
-/* AUTO-EXPAND TEXTAREA SCRIPT STYLES */
+/* AUTO-EXPAND TEXTAREA STYLES */
 textarea {
   transition: height 0.1s ease;
 }

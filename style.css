@@ -71,13 +71,13 @@ body {
   border: 1px solid #ccc;
   padding: 2px;
   font-size: 0.9rem;
-  min-height: 40px;
+  min-height: 30px;
 }
 
 /* TABLE STYLES */
 h3 {
-  margin-top: 20px;
-  margin-bottom: 5px;
+  margin-top: 15px;
+  margin-bottom: 3px;
   text-align: left;
 }
 
@@ -91,11 +91,11 @@ table.items {
 .items td {
   border: 1px solid #000;
   text-align: center;
-  padding: 4px;
+  padding: 2px;
   vertical-align: top;
 }
 
-/* FIXED COLUMN WIDTHS - Force them to work */
+/* FIXED COLUMN WIDTHS */
 #serviceTable th:first-child,
 #serviceTable td:first-child {
   width: 80% !important;
@@ -126,10 +126,10 @@ table.items {
   border: none;
   text-align: center;
   font-size: 0.9rem;
-  padding: 4px;
+  padding: 2px;
 }
 
-/* AMOUNT INPUTS - Make them narrower */
+/* AMOUNT INPUTS */
 .s-amt, .amt {
   width: 80% !important;
   text-align: center;
@@ -140,11 +140,11 @@ table.items {
   text-align: center;
 }
 
-/* TEXTAREA STYLES INSIDE TABLES - AUTO-EXPANDING */
+/* TEXTAREA STYLES INSIDE TABLES - TIGHTER SPACING */
 .items textarea {
   width: 100%;
   border: none;
-  padding: 8px;
+  padding: 2px;
   margin: 0;
   background: transparent;
   font-family: 'Courier Prime', monospace;
@@ -154,33 +154,34 @@ table.items {
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: break-word;
-  line-height: 1.4;
+  line-height: 1.2;
   text-align: left;
-  min-height: 50px;
+  min-height: 22px;
   height: auto;
   overflow: hidden;
 }
 
-/* GENERAL TEXTAREA STYLES - FOR TEXT WRAPPING */
+/* GENERAL TEXTAREA STYLES - TIGHTER SPACING */
 textarea {
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: break-word;
-  line-height: 1.4;
+  line-height: 1.2;
   resize: vertical;
   font-family: 'Courier Prime', monospace;
   font-size: 0.9rem;
   box-sizing: border-box;
-  min-height: 40px;
+  min-height: 30px;
   height: auto;
+  padding: 2px;
 }
 
 /* BUTTONS */
 button {
   font-family: inherit;
   border: 1px solid #000;
-  padding: 6px 12px;
+  padding: 4px 10px;
   cursor: pointer;
   background: #f0f0f0;
   margin-top: 5px;
@@ -193,9 +194,9 @@ button:hover {
 
 /* TOTALS SECTION */
 .totals {
-  margin-top: 15px;
+  margin-top: 10px;
   border-top: 2px solid #000;
-  padding-top: 10px;
+  padding-top: 8px;
   max-width: 300px;
   margin-left: auto;
   font-size: 0.9rem;
@@ -204,33 +205,34 @@ button:hover {
 .totals div {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .totals .grand {
   border-top: 2px solid #000;
   font-weight: bold;
-  padding-top: 5px;
+  padding-top: 3px;
+  margin-top: 2px;
 }
 
 /* SIGN AREA */
 .sign {
-  margin-top: 40px;
+  margin-top: 20px;
   font-size: 0.9rem;
 }
 
 .sign textarea {
   border: 1px solid #ccc;
-  padding: 3px;
+  padding: 2px;
   width: 60%;
   font-family: inherit;
-  min-height: 40px;
+  min-height: 30px;
 }
 
 /* ACTION BUTTONS */
 .actions {
   text-align: center;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 button {
@@ -248,12 +250,12 @@ button {
 
 .search-container textarea {
   width: 70%;
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #ccc;
   margin-right: 5px;
   display: inline-block;
   vertical-align: middle;
-  min-height: 40px;
+  min-height: 30px;
 }
 
 .search-container button {
@@ -268,12 +270,12 @@ button {
 .found-receipt {
   background: #f9f9f9;
   border: 1px solid #ddd;
-  padding: 8px;
-  margin-bottom: 8px;
+  padding: 6px;
+  margin-bottom: 6px;
 }
 
 .found-receipt button {
-  margin: 3px;
+  margin: 2px;
   font-size: 0.8rem;
 }
 
@@ -291,7 +293,7 @@ button {
   .actions {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 5px;
   }
 
   button {
@@ -348,7 +350,7 @@ button {
   
   .items textarea {
     border: none;
-    padding: 2px;
+    padding: 1px;
     height: auto;
     overflow: visible;
   }
@@ -356,5 +358,5 @@ button {
 
 /* AUTO-EXPAND TEXTAREA STYLES */
 textarea {
-  transition: height 0.1s ease;
+  transition: height 0.05s ease;
 }

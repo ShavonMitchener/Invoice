@@ -12,7 +12,7 @@ body {
 
 .invoice-container {
   background: #fff;
-  padding: 20px;
+  padding: 15px;
   margin: auto;
   max-width: 750px;
   border: 1px solid #000;
@@ -22,71 +22,71 @@ body {
 .header {
   text-align: center;
   border-bottom: 2px solid #000;
-  margin-bottom: 15px;
-  padding-bottom: 5px;
+  margin-bottom: 10px;
+  padding-bottom: 3px;
 }
 
 .header h2 {
-  margin: 0 0 5px 0;
-  font-size: 1.1rem;
+  margin: 0 0 3px 0;
+  font-size: 1rem;
 }
 
 .header p {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 .logos {
-  margin-top: 8px;
+  margin-top: 5px;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 15px;
   flex-wrap: wrap;
 }
 
 .logos img {
-  width: 65px;
+  width: 55px;
   height: auto;
 }
 
 .info {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  font-size: 0.9rem;
-  margin-bottom: 20px;
+  gap: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 15px;
 }
 
 .info label {
   font-weight: bold;
   display: block;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 
 .info textarea {
   width: 95%;
   border: 1px solid #aaa;
-  padding: 6px;
-  font-size: 0.9rem;
+  padding: 3px;
+  font-size: 0.85rem;
   resize: vertical;
   font-family: 'Courier Prime', monospace;
 }
 
 h3 {
-  margin-top: 20px;
-  margin-bottom: 8px;
-  font-size: 1rem;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 8px 0;
+  margin: 5px 0;
 }
 
 th, td {
   border: 2px solid #000;
-  padding: 8px;
+  padding: 4px;
   vertical-align: top;
 }
 
@@ -120,34 +120,34 @@ th, td {
 .s-desc, .desc {
   width: 100%;
   border: none;
-  padding: 4px;
+  padding: 2px;
   font-family: 'Courier Prime', monospace;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   resize: vertical;
   white-space: pre-wrap;
   word-wrap: break-word;
   word-break: break-word;
-  line-height: 1.4;
+  line-height: 1.3;
   background: transparent;
 }
 
 .s-amt, .amt {
   width: 95%;
   border: none;
-  padding: 6px;
+  padding: 3px;
   text-align: center;
   font-family: 'Courier Prime', monospace;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   background: transparent;
 }
 
 .qty {
   width: 80%;
   border: none;
-  padding: 6px;
+  padding: 3px;
   text-align: center;
   font-family: 'Courier Prime', monospace;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   background: transparent;
 }
 
@@ -157,13 +157,13 @@ textarea:focus, input:focus {
 }
 
 button {
-  padding: 6px 14px;
-  margin: 5px;
+  padding: 4px 10px;
+  margin: 3px;
   cursor: pointer;
   border: 1px solid #000;
   background: #f0f0f0;
   font-family: 'Courier Prime', monospace;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 button:hover {
@@ -171,71 +171,74 @@ button:hover {
 }
 
 .totals {
-  margin-top: 20px;
+  margin-top: 12px;
   border-top: 2px solid #000;
-  padding-top: 12px;
+  padding-top: 8px;
   text-align: right;
-  max-width: 300px;
+  max-width: 280px;
   margin-left: auto;
 }
 
 .totals div {
-  margin-bottom: 6px;
-  font-size: 0.9rem;
+  margin-bottom: 3px;
+  font-size: 0.85rem;
 }
 
 .totals .grand {
   font-weight: bold;
   border-top: 1px solid #000;
-  padding-top: 6px;
-  margin-top: 4px;
-  font-size: 1rem;
+  padding-top: 4px;
+  margin-top: 3px;
+  font-size: 0.9rem;
 }
 
 .sign {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .sign label {
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .sign textarea {
   width: 60%;
-  padding: 6px;
-  margin-top: 5px;
+  padding: 3px;
+  margin-top: 3px;
   border: 1px solid #aaa;
   font-family: 'Courier Prime', monospace;
   resize: vertical;
+  font-size: 0.85rem;
 }
 
 .actions {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .search-container {
   background: #fff;
-  margin: 25px auto;
-  padding: 18px;
+  margin: 20px auto;
+  padding: 12px;
   max-width: 750px;
   border: 1px solid #000;
 }
 
 .search-container h3 {
   margin-top: 0;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
 }
 
 .search-container textarea {
   width: 70%;
-  padding: 6px;
-  margin-right: 8px;
+  padding: 4px;
+  margin-right: 5px;
   border: 1px solid #aaa;
   font-family: 'Courier Prime', monospace;
   resize: vertical;
   vertical-align: middle;
+  font-size: 0.85rem;
 }
 
 .search-container button {
@@ -244,36 +247,36 @@ button:hover {
 }
 
 #searchResults {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .found-receipt {
   border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px 0;
+  padding: 6px;
+  margin: 8px 0;
   background: #f9f9f9;
 }
 
 .found-receipt button {
-  margin: 5px 5px 0 0;
-  padding: 4px 10px;
-  font-size: 0.8rem;
+  margin: 3px 3px 0 0;
+  padding: 3px 8px;
+  font-size: 0.75rem;
 }
 
 @media (max-width: 600px) {
   .info {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 6px;
   }
   
   .logos img {
-    width: 45px;
+    width: 40px;
   }
   
   .actions {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
   }
   
   .actions button {
@@ -282,7 +285,7 @@ button:hover {
   
   .search-container textarea {
     width: 100%;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     margin-right: 0;
   }
   
@@ -295,7 +298,7 @@ button:hover {
   }
   
   th, td {
-    padding: 5px;
+    padding: 3px;
   }
 }
 

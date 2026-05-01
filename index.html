@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Mitchy Quick Auto - Invoice</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
@@ -25,9 +25,9 @@
     <section class="info">
       <div><label>Invoice No:</label> <span id="invoiceNo">001</span></div>
       <div><label>Date:</label> <span id="date"></span></div>
-      <div><label>Customer Name:</label> <textarea id="custName" placeholder="Enter name" rows="2"></textarea></div>
-      <div><label>Vehicle:</label> <textarea id="vehicle" placeholder="Enter vehicle" rows="2"></textarea></div>
-      <div><label>From:</label> <textarea id="fromName" placeholder="Staff name" rows="2"></textarea></div>
+      <div><label>Customer Name:</label> <textarea id="custName" placeholder="Enter name" rows="1"></textarea></div>
+      <div><label>Vehicle:</label> <textarea id="vehicle" placeholder="Enter vehicle" rows="1"></textarea></div>
+      <div><label>From:</label> <textarea id="fromName" placeholder="Staff name" rows="1"></textarea></div>
     </section>
 
     <!-- SERVICE TABLE -->
@@ -36,7 +36,7 @@
       <thead><tr><th>DESCRIPTION</th><th>AMOUNT</th></tr></thead>
       <tbody id="serviceBody">
         <tr>
-          <td><textarea class="s-desc" placeholder="Service description" rows="2"></textarea></td>
+          <td><textarea class="s-desc" placeholder="Service description" rows="1"></textarea></td>
           <td><input type="number" class="s-amt" min="0" step="0.01" value="0.00" /></td>
         </tr>
       </tbody>
@@ -50,7 +50,7 @@
       <tbody id="partsBody">
         <tr>
           <td><input type="number" class="qty" min="1" value="1" /></td>
-          <td><textarea class="desc" placeholder="Part name" rows="2"></textarea></td>
+          <td><textarea class="desc" placeholder="Part name" rows="1"></textarea></td>
           <td><input type="number" class="amt" min="0" step="0.01" value="0.00" /></td>
         </tr>
       </tbody>
@@ -67,7 +67,7 @@
     <!-- SIGN -->
     <div class="sign">
       <label>Signed by:</label>
-      <textarea id="signedBy" placeholder="Enter name" rows="2"></textarea>
+      <textarea id="signedBy" placeholder="Enter name" rows="1"></textarea>
     </div>
 
     <!-- BUTTONS -->
@@ -76,14 +76,13 @@
       <button id="printBtn">🖨️ Print Invoice</button>
       <button id="newBtn">➕ New Invoice</button>
       <button id="resetBtn">🧹 Reset Invoice No.</button>
-      <button id="syncBtn">☁️ Sync with Cloud</button>
     </div>
   </div>
 
   <!-- SEARCH PREVIOUS RECEIPTS -->
   <div class="search-container">
     <h3>🔍 Search Old Receipts</h3>
-    <textarea id="searchInput" placeholder="Enter invoice number or customer name" rows="2"></textarea>
+    <textarea id="searchInput" placeholder="Enter invoice number or customer name" rows="1"></textarea>
     <button id="searchBtn">Search</button>
     <div id="searchResults"></div>
   </div>

@@ -1,3 +1,4 @@
+/* GLOBAL RESET */
 * {
   font-family: 'Courier Prime', monospace;
   box-sizing: border-box;
@@ -9,14 +10,17 @@ body {
   padding: 10px;
 }
 
+/* MAIN CONTAINER */
 .invoice-container {
   background: #fff;
   padding: 15px;
   margin: auto;
   max-width: 700px;
   border: 1px solid #000;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* HEADER */
 .header {
   text-align: center;
   border-bottom: 2px solid #000;
@@ -25,172 +29,328 @@ body {
 
 .header h2 {
   margin: 0 0 5px 0;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .header p {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 
+/* LOGO AREA */
 .logos {
   margin-top: 5px;
   display: flex;
   justify-content: center;
-  gap: 12px;
+  align-items: center;
+  gap: 15px;
   flex-wrap: wrap;
 }
 
 .logos img {
-  width: 60px;
+  width: 70px;
   height: auto;
+  object-fit: contain;
+  margin: 5px;
 }
 
+/* INFO SECTION */
 .info {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  font-size: 0.85rem;
-  margin-bottom: 10px;
+  font-size: 0.9rem;
 }
 
 .info label {
   font-weight: bold;
 }
 
-.info input {
+.info textarea {
   width: 95%;
-  padding: 4px;
   border: 1px solid #ccc;
+  padding: 2px;
+  font-size: 0.9rem;
+  min-height: 40px;
 }
 
+/* TABLE STYLES */
 h3 {
-  margin-top: 15px;
+  margin-top: 20px;
   margin-bottom: 5px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  border: 1px solid black;
-  padding: 6px;
-  text-align: center;
-}
-
-th:first-child, td:first-child {
   text-align: left;
 }
 
-.items input {
-  border: none;
-  padding: 4px;
-  background: transparent;
+table.items {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
 }
 
-button {
-  padding: 5px 10px;
-  margin-top: 5px;
-  cursor: pointer;
+.items th,
+.items td {
   border: 1px solid #000;
+  text-align: center;
+  padding: 4px;
+  vertical-align: top;
+}
+
+/* SERVICE TABLE - Make description wider, amount narrower */
+#serviceTable .items th:first-child,
+#serviceTable .items td:first-child {
+  width: 80% !important;
+}
+
+#serviceTable .items th:last-child,
+#serviceTable .items td:last-child {
+  width: 20% !important;
+}
+
+/* PARTS TABLE - QTY small, description wide, amount narrow */
+#partsTable .items th:first-child,
+#partsTable .items td:first-child {
+  width: 15% !important;
+}
+
+#partsTable .items th:nth-child(2),
+#partsTable .items td:nth-child(2) {
+  width: 65% !important;
+}
+
+#partsTable .items th:last-child,
+#partsTable .items td:last-child {
+  width: 20% !important;
+}
+
+.items input {
+  width: 90%;
+  border: none;
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 4px;
+}
+
+/* AMOUNT INPUTS - Make them smaller */
+.s-amt, .amt {
+  width: 80% !important;
+  text-align: center;
+}
+
+/* TEXTAREA STYLES INSIDE TABLES - AUTO-EXPANDING */
+.items textarea {
+  width: 100%;
+  border: none;
+  padding: 8px;
+  margin: 0;
+  background: transparent;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.9rem;
+  resize: vertical;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  line-height: 1.4;
+  text-align: left;
+  min-height: 50px;
+  height: auto;
+  overflow: hidden;
+}
+
+/* GENERAL TEXTAREA STYLES - FOR TEXT WRAPPING */
+textarea {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  line-height: 1.4;
+  resize: vertical;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  min-height: 40px;
+  height: auto;
+}
+
+/* BUTTONS */
+button {
+  font-family: inherit;
+  border: 1px solid #000;
+  padding: 6px 12px;
+  cursor: pointer;
   background: #f0f0f0;
+  margin-top: 5px;
+  transition: background 0.2s;
 }
 
 button:hover {
   background: #ddd;
 }
 
+/* TOTALS SECTION */
 .totals {
   margin-top: 15px;
-  padding-top: 10px;
   border-top: 2px solid #000;
-  text-align: right;
-  max-width: 280px;
+  padding-top: 10px;
+  max-width: 300px;
   margin-left: auto;
+  font-size: 0.9rem;
 }
 
 .totals div {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 4px;
 }
 
 .totals .grand {
+  border-top: 2px solid #000;
   font-weight: bold;
-  border-top: 1px solid #000;
-  padding-top: 4px;
+  padding-top: 5px;
 }
 
+/* SIGN AREA */
 .sign {
-  margin-top: 30px;
+  margin-top: 40px;
+  font-size: 0.9rem;
 }
 
-.sign input {
-  width: 60%;
-  padding: 4px;
+.sign textarea {
   border: 1px solid #ccc;
+  padding: 3px;
+  width: 60%;
+  font-family: inherit;
+  min-height: 40px;
 }
 
+/* ACTION BUTTONS */
 .actions {
   text-align: center;
   margin-top: 15px;
 }
 
-.search-container {
-  margin-top: 20px;
-  padding: 15px;
-  border: 1px solid #000;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-  background: #fff;
+button {
+  margin: 3px;
 }
 
-.search-container input {
+/* SEARCH SECTION */
+.search-container {
+  background: #fff;
+  margin: 20px auto;
+  padding: 15px;
+  max-width: 700px;
+  border: 1px solid #000;
+}
+
+.search-container textarea {
   width: 70%;
   padding: 5px;
+  border: 1px solid #ccc;
   margin-right: 5px;
+  display: inline-block;
+  vertical-align: middle;
+  min-height: 40px;
+}
+
+.search-container button {
+  vertical-align: middle;
 }
 
 #searchResults {
   margin-top: 10px;
+  font-size: 0.9rem;
 }
 
 .found-receipt {
+  background: #f9f9f9;
   border: 1px solid #ddd;
   padding: 8px;
   margin-bottom: 8px;
-  background: #f9f9f9;
 }
 
+.found-receipt button {
+  margin: 3px;
+  font-size: 0.8rem;
+}
+
+/* RESPONSIVE DESIGN */
 @media (max-width: 600px) {
   .info {
     grid-template-columns: 1fr;
   }
-  
+
   .logos img {
-    width: 45px;
+    width: 50px;
+    margin: 4px;
   }
-  
-  .actions button, .search-container input {
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .search-container textarea {
     width: 100%;
     margin-bottom: 5px;
+    margin-right: 0;
   }
   
-  .sign input {
+  .search-container button {
     width: 100%;
+  }
+  
+  .sign textarea {
+    width: 100%;
+  }
+  
+  /* Reset column widths for mobile */
+  #serviceTable .items th:first-child,
+  #serviceTable .items td:first-child,
+  #partsTable .items th:nth-child(2),
+  #partsTable .items td:nth-child(2) {
+    width: auto !important;
   }
 }
 
+/* PRINT STYLES */
 @media print {
-  button, .actions, .search-container {
+  button,
+  .actions,
+  .search-container {
     display: none;
   }
-  
-  body, .invoice-container {
+
+  body {
     background: #fff;
+  }
+
+  .invoice-container {
+    box-shadow: none;
     border: none;
     padding: 0;
-    margin: 0;
   }
+  
+  textarea {
+    border: none;
+    resize: none;
+    overflow: visible;
+    min-height: auto;
+  }
+  
+  .items textarea {
+    border: none;
+    padding: 2px;
+    height: auto;
+    overflow: visible;
+  }
+}
+
+/* AUTO-EXPAND TEXTAREA STYLES */
+textarea {
+  transition: height 0.1s ease;
 }

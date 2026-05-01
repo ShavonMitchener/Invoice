@@ -90,18 +90,31 @@ th, td {
   vertical-align: top;
 }
 
-th:first-child, td:first-child {
+/* Service table widths */
+#serviceTable th:first-child,
+#serviceTable td:first-child {
   width: 75%;
 }
 
-th:last-child, td:last-child {
+#serviceTable th:last-child,
+#serviceTable td:last-child {
   width: 25%;
 }
 
-/* For parts table */
+/* Parts table widths */
+#partsTable th:first-child,
+#partsTable td:first-child {
+  width: 12%;
+}
+
 #partsTable th:nth-child(2),
 #partsTable td:nth-child(2) {
-  width: 60%;
+  width: 68%;
+}
+
+#partsTable th:last-child,
+#partsTable td:last-child {
+  width: 20%;
 }
 
 .s-desc, .desc {
@@ -118,7 +131,7 @@ th:last-child, td:last-child {
   background: transparent;
 }
 
-.s-amt, .amt, .qty {
+.s-amt, .amt {
   width: 95%;
   border: none;
   padding: 6px;
@@ -130,6 +143,12 @@ th:last-child, td:last-child {
 
 .qty {
   width: 80%;
+  border: none;
+  padding: 6px;
+  text-align: center;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.9rem;
+  background: transparent;
 }
 
 textarea:focus, input:focus {
@@ -145,12 +164,10 @@ button {
   background: #f0f0f0;
   font-family: 'Courier Prime', monospace;
   font-size: 0.85rem;
-  transition: all 0.2s;
 }
 
 button:hover {
   background: #ddd;
-  transform: scale(1.02);
 }
 
 .totals {

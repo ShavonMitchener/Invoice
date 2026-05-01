@@ -66,10 +66,10 @@ body {
   font-weight: bold;
 }
 
-.info input {
+.info textarea {
   width: 95%;
-  padding: 2px;
   border: 1px solid #ccc;
+  padding: 2px;
   font-size: 0.9rem;
 }
 
@@ -91,6 +91,7 @@ table.items {
   border: 1px solid #000;
   text-align: center;
   padding: 4px;
+  vertical-align: top;
 }
 
 .items input {
@@ -98,35 +99,38 @@ table.items {
   border: none;
   text-align: center;
   font-size: 0.9rem;
+  padding: 4px;
 }
 
-/* TEXT WRAPPING FOR INPUTS - KEEPS TEXT IN DESIGNATED SPACE */
-input[type="text"],
-input:not([type="button"]):not([type="submit"]):not([type="reset"]),
-.items input,
-.info input,
-.sign input,
-.search-container input {
+/* TEXTAREA STYLES INSIDE TABLES */
+.items textarea {
+  width: 100%;
+  border: none;
+  padding: 4px;
+  margin: 0;
+  background: transparent;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.9rem;
+  resize: vertical;
   white-space: normal;
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: break-word;
   line-height: 1.3;
-}
-
-/* Specifically for description fields in tables */
-.items td:first-child input,
-.items td:nth-child(2) input {
   text-align: left;
-  padding: 4px;
-  min-width: 120px;
 }
 
-/* For multi-line text support in input fields - allows visual wrap */
-input {
-  display: inline-block;
-  height: auto;
-  min-height: 28px;
+/* GENERAL TEXTAREA STYLES - FOR TEXT WRAPPING */
+textarea {
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  line-height: 1.3;
+  resize: vertical;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.9rem;
+  box-sizing: border-box;
 }
 
 /* BUTTONS */
@@ -172,7 +176,7 @@ button:hover {
   font-size: 0.9rem;
 }
 
-.sign input {
+.sign textarea {
   border: 1px solid #ccc;
   padding: 3px;
   width: 60%;
@@ -198,11 +202,17 @@ button {
   border: 1px solid #000;
 }
 
-.search-container input {
+.search-container textarea {
   width: 70%;
   padding: 5px;
   border: 1px solid #ccc;
   margin-right: 5px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.search-container button {
+  vertical-align: middle;
 }
 
 #searchResults {
@@ -243,9 +253,18 @@ button {
     width: 100%;
   }
 
-  .search-container input {
+  .search-container textarea {
     width: 100%;
     margin-bottom: 5px;
+    margin-right: 0;
+  }
+  
+  .search-container button {
+    width: 100%;
+  }
+  
+  .sign textarea {
+    width: 100%;
   }
 }
 
@@ -265,5 +284,16 @@ button {
     box-shadow: none;
     border: none;
     padding: 0;
+  }
+  
+  textarea {
+    border: none;
+    resize: none;
+    overflow: visible;
+  }
+  
+  .items textarea {
+    border: none;
+    padding: 2px;
   }
 }

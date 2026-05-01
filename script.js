@@ -73,8 +73,8 @@ function loadReceiptIntoForm(receipt) {
   } else {
     // Add one empty row if no services
     const r = document.createElement("tr");
-    r.innerHTML = `</td><textarea class="s-desc" placeholder="Service description" rows="2"></textarea></td>
-                   <tr><input type="number" class="s-amt" min="0" step="0.01" value="0.00"></td>`;
+    r.innerHTML = `<tr><textarea class="s-desc" placeholder="Service description" rows="2"></textarea></td>
+                   <td><input type="number" class="s-amt" min="0" step="0.01" value="0.00"></td>`;
     serviceBody.appendChild(r);
     const newTextarea = r.querySelector('.s-desc');
     newTextarea.addEventListener('input', function() { autoExpand(this); });
@@ -104,7 +104,7 @@ function loadReceiptIntoForm(receipt) {
   } else {
     // Add one empty row if no parts
     const r = document.createElement("tr");
-    r.innerHTML = `<td><input type="number" class="qty" min="1" value="1"></td>
+    r.innerHTML = `<tr><input type="number" class="qty" min="1" value="1"></td>
                    <td><textarea class="desc" placeholder="Part name" rows="2"></textarea></td>
                    <td><input type="number" class="amt" min="0" step="0.01" value="0.00"></td>`;
     partsBody.appendChild(r);
@@ -137,7 +137,7 @@ function escapeHtml(text) {
 // --- ADD SERVICE ROW (with textarea) ---
 document.getElementById("addService").addEventListener("click",()=>{
   const r=document.createElement("tr");
-  r.innerHTML=`<tr><textarea class="s-desc" placeholder="Service description" rows="2"></textarea></td>
+  r.innerHTML=`<td><textarea class="s-desc" placeholder="Service description" rows="2"></textarea></td>
                <td><input type="number" class="s-amt" min="0" step="0.01" value="0.00"></td>`;
   document.getElementById("serviceBody").appendChild(r);
   
@@ -229,35 +229,18 @@ document.getElementById("searchBtn").addEventListener("click",()=>{
     const div=document.createElement("div");
     div.className="found-receipt";
     
-    let serviceList = "";
-    if (r.service && r.service.length > 0) {
-      serviceList = "<br><strong>Services:</strong><br>";
-      r.service.forEach(s => {
-        serviceList += `• ${s.desc.substring(0, 50)}${s.desc.length > 50 ? '...' : ''} - $${s.amt}<br>`;
-      });
-    }
-    
-    let partsList = "";
-    if (r.parts && r.parts.length > 0) {
-      partsList = "<br><strong>Parts:</strong><br>";
-      r.parts.forEach(p => {
-        partsList += `• ${p.qty}x ${p.desc.substring(0, 50)}${p.desc.length > 50 ? '...' : ''} - $${p.amt}<br>`;
-      });
-    }
-    
+    // SIMPLIFIED DISPLAY - only basic info, no services/parts list
     div.innerHTML=`
       <strong>Invoice #${r.invoiceNo}</strong> | ${r.date}<br>
       Customer: ${r.customer} | Vehicle: ${r.vehicle}<br>
       From: ${r.from} | Signed: ${r.signedBy || 'N/A'}<br>
-      ${serviceList}
-      ${partsList}
       <strong>Service Total: $${r.totals.service}</strong> | <strong>Parts Total: $${r.totals.parts}</strong><br>
       <strong>Grand Total: $${r.totals.grand}</strong><br>
       <button class="viewBtn">📄 View Full Details</button>
       <button class="deleteBtn">🗑️ Delete</button>
       <hr>`;
 
-    // VIEW FULL DETAILS button - NOW LOADS AND FILLS THE INVOICE
+    // VIEW FULL DETAILS button - loads and fills the invoice
     div.querySelector(".viewBtn").addEventListener("click",()=>{
       loadReceiptIntoForm(r);
     });

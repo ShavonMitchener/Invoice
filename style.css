@@ -70,9 +70,9 @@ body {
 .info textarea {
   width: 95%;
   border: 1px solid #ccc;
-  padding: 2px;
+  padding: 4px;
   font-size: 0.85rem;
-  min-height: 24px;
+  min-height: 30px;
   height: auto;
 }
 
@@ -90,7 +90,7 @@ table.items {
   font-size: 0.85rem;
 }
 
-/* THIS IS WHAT CREATES THE BOX BORDERS */
+/* TABLE BORDERS - THESE CREATE THE BOXES */
 .items th,
 .items td {
   border: 1px solid #000;
@@ -129,16 +129,17 @@ table.items {
   border: none;
   text-align: center;
   font-size: 0.85rem;
-  padding: 2px;
+  padding: 4px;
   width: 90%;
+  background: transparent;
 }
 
-/* TEXTAREA STYLES */
+/* TEXTAREA INSIDE TABLE - NO BORDER SO IT LOOKS CLEAN */
 .items textarea {
   width: 100%;
   border: none;
   padding: 4px;
-  margin: 0;
+  margin: -4px;
   background: transparent;
   font-family: 'Courier Prime', monospace;
   font-size: 0.85rem;
@@ -149,10 +150,16 @@ table.items {
   word-break: break-word;
   line-height: 1.2;
   text-align: left;
-  min-height: 20px;
+  min-height: 30px;
   height: auto;
   max-height: 80px;
   overflow-y: auto;
+}
+
+/* Focus style for textareas inside table */
+.items textarea:focus {
+  outline: none;
+  background: #f9f9f9;
 }
 
 /* GENERAL TEXTAREA STYLES */
@@ -166,7 +173,7 @@ textarea {
   font-family: 'Courier Prime', monospace;
   font-size: 0.85rem;
   box-sizing: border-box;
-  min-height: 24px;
+  min-height: 30px;
   height: auto;
   padding: 4px;
 }
@@ -221,7 +228,7 @@ button:hover {
   padding: 4px;
   width: 60%;
   font-family: inherit;
-  min-height: 24px;
+  min-height: 30px;
 }
 
 /* ACTION BUTTONS */
@@ -250,7 +257,7 @@ button {
   margin-right: 5px;
   display: inline-block;
   vertical-align: middle;
-  min-height: 28px;
+  min-height: 30px;
 }
 
 .search-container button {
@@ -341,10 +348,5 @@ button {
     border: none;
     padding: 2px;
     max-height: none;
-  }
-  
-  .items th,
-  .items td {
-    border: 1px solid #000;
   }
 }

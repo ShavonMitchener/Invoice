@@ -1,88 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mitchy Quick Auto - Invoice</title>
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="invoice-container">
-    <div class="header">
-      <h2>MITCHY QUICK AUTO IMPORT & REPAIRS LIMITED</h2>
-      <p>87 Montgomery Ave, Kingston 10 | Tel: 876-995-6643</p>
-      <div class="logos">
-        <img src="toyota.png" alt="Toyota">
-        <img src="nissan.png" alt="Nissan">
-        <img src="honda.png" alt="Honda">
-        <img src="mitsubishi.png" alt="Mitsubishi">
-      </div>
-    </div>
-
-    <div class="info">
-      <div><label>Invoice No:</label> <span id="invoiceNo">001</span></div>
-      <div><label>Date:</label> <span id="date"></span></div>
-      <div><label>Customer Name:</label> <input type="text" id="custName" placeholder="Enter name"></div>
-      <div><label>Vehicle:</label> <input type="text" id="vehicle" placeholder="Enter vehicle"></div>
-      <div><label>From:</label> <input type="text" id="fromName" placeholder="Staff name"></div>
-    </div>
-
-    <h3>Service</h3>
-    <table class="items">
-      <thead>
-        <tr><th>DESCRIPTION</th><th>AMOUNT</th></tr>
-      </thead>
-      <tbody id="serviceBody">
-        <tr>
-          <td><input type="text" class="s-desc" placeholder="Service description" style="width:100%"></td>
-          <td><input type="number" class="s-amt" min="0" step="0.01" value="0.00" style="width:90%"></td>
-        </tr>
-      </tbody>
-    </table>
-    <button id="addService">+ Add Service</button>
-
-    <h3>Parts</h3>
-    <table class="items">
-      <thead>
-        <tr><th>QTY</th><th>DESCRIPTION</th><th>AMOUNT</th></tr>
-      </thead>
-      <tbody id="partsBody">
-        <tr>
-          <td><input type="number" class="qty" min="1" value="1" style="width:90%"></td>
-          <td><input type="text" class="desc" placeholder="Part name" style="width:100%"></td>
-          <td><input type="number" class="amt" min="0" step="0.01" value="0.00" style="width:90%"></td>
-        </tr>
-      </tbody>
-    </table>
-    <button id="addPart">+ Add Part</button>
-
-    <div class="totals">
-      <div>Service Total: <span id="serviceTotal">0.00</span></div>
-      <div>Parts Total: <span id="partsTotal">0.00</span></div>
-      <div class="grand">Grand Total: <span id="grandTotal">0.00</span></div>
-    </div>
-
-    <div class="sign">
-      <label>Signed by:</label>
-      <input type="text" id="signedBy" placeholder="Enter name">
-    </div>
-
-    <div class="actions">
-      <button id="saveBtn">Save Receipt</button>
-      <button id="printBtn">Print Invoice</button>
-      <button id="newBtn">New Invoice</button>
-      <button id="resetBtn">Reset Invoice No.</button>
+<div class="invoice-container">
+  <div class="header">
+    <h2>MITCHY QUICK AUTO IMPORT & REPAIRS LIMITED</h2>
+    <p>87 Montgomery Ave, Kingston 10 | Tel: 876-995-6643</p>
+    <div class="logos">
+      <img src="toyota.png" alt="Toyota">
+      <img src="nissan.png" alt="Nissan">
+      <img src="honda.png" alt="Honda">
+      <img src="mitsubishi.png" alt="Mitsubishi">
     </div>
   </div>
 
-  <div class="search-container">
-    <h3>Search Old Receipts</h3>
-    <input type="text" id="searchInput" placeholder="Enter invoice number or customer name">
-    <button id="searchBtn">Search</button>
-    <div id="searchResults"></div>
+  <div class="info">
+    <div><label>Invoice No:</label> <span id="invoiceNo">001</span></div>
+    <div><label>Date:</label> <span id="date"></span></div>
+    <div><label>Customer Name:</label> <input type="text" id="custName" placeholder="Enter name"></div>
+    <div><label>Vehicle:</label> <input type="text" id="vehicle" placeholder="Enter vehicle"></div>
+    <div><label>From:</label> <input type="text" id="fromName" placeholder="Staff name"></div>
   </div>
 
-  <script src="script.js"></script>
+  <h3>Service</h3>
+  <table class="items">
+    <thead>
+      <tr><th>DESCRIPTION</th><th>AMOUNT</th></tr>
+    </thead>
+    <tbody id="serviceBody">
+      <tr>
+        <td><input type="text" class="s-desc" placeholder="Service description"></td>
+        <td><input type="number" class="s-amt" min="0" step="0.01" value="0.00"></td>
+      </tr>
+    </tbody>
+  </table>
+  <button id="addService">+ Add Service</button>
+
+  <h3>Parts</h3>
+  <table class="items">
+    <thead>
+      <tr><th>QTY</th><th>DESCRIPTION</th><th>AMOUNT</th></tr>
+    </thead>
+    <tbody id="partsBody">
+      <tr>
+        <td><input type="number" class="qty" min="1" value="1"></td>
+        <td><input type="text" class="desc" placeholder="Part name"></td>
+        <td><input type="number" class="amt" min="0" step="0.01" value="0.00"></td>
+      </tr>
+    </tbody>
+  </table>
+  <button id="addPart">+ Add Part</button>
+
+  <div class="totals">
+    <div>Service Total: <span id="serviceTotal">0.00</span></div>
+    <div>Parts Total: <span id="partsTotal">0.00</span></div>
+    <div class="grand">Grand Total: <span id="grandTotal">0.00</span></div>
+  </div>
+
+  <div class="sign">
+    <label>Signed by:</label>
+    <input type="text" id="signedBy" placeholder="Enter name">
+  </div>
+
+  <div class="actions">
+    <button id="saveBtn">💾 Save Receipt</button>
+    <button id="printBtn">🖨️ Print Invoice</button>
+    <button id="newBtn">➕ New Invoice</button>
+    <button id="resetBtn">🧹 Reset Invoice No.</button>
+  </div>
+</div>
+
+<div class="search-container">
+  <h3>🔍 Search Old Receipts</h3>
+  <input type="text" id="searchInput" placeholder="Enter invoice number or customer name">
+  <button id="searchBtn">Search</button>
+  <div id="searchResults"></div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

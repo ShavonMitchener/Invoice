@@ -29,12 +29,12 @@ body {
 
 .header h2 {
   margin: 0 0 5px 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .header p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 /* LOGO AREA */
@@ -43,15 +43,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .logos img {
-  width: 70px;
+  width: 60px;
   height: auto;
   object-fit: contain;
-  margin: 5px;
 }
 
 /* INFO SECTION */
@@ -59,121 +58,82 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
 }
 
 .info label {
   font-weight: bold;
 }
 
-.info textarea {
+.info input {
   width: 95%;
   border: 1px solid #ccc;
-  padding: 2px;
-  font-size: 0.9rem;
-  min-height: 40px;
+  padding: 5px;
+  font-size: 0.85rem;
 }
 
 /* TABLE STYLES */
 h3 {
-  margin-top: 20px;
+  margin-top: 15px;
   margin-bottom: 5px;
   text-align: left;
+  font-size: 0.9rem;
 }
 
 table.items {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .items th,
 .items td {
   border: 1px solid #000;
   text-align: center;
-  padding: 4px;
+  padding: 8px;
   vertical-align: top;
 }
 
-/* FIXED COLUMN WIDTHS - Force them to work */
+/* COLUMN WIDTHS */
 #serviceTable th:first-child,
 #serviceTable td:first-child {
-  width: 80% !important;
+  width: 80%;
 }
 
 #serviceTable th:last-child,
 #serviceTable td:last-child {
-  width: 20% !important;
+  width: 20%;
 }
 
-/* PARTS TABLE COLUMN WIDTHS */
 #partsTable th:first-child,
 #partsTable td:first-child {
-  width: 15% !important;
+  width: 15%;
 }
 
 #partsTable th:nth-child(2),
 #partsTable td:nth-child(2) {
-  width: 65% !important;
+  width: 65%;
 }
 
 #partsTable th:last-child,
 #partsTable td:last-child {
-  width: 20% !important;
+  width: 20%;
 }
 
 .items input {
   border: none;
   text-align: center;
-  font-size: 0.9rem;
-  padding: 4px;
-}
-
-/* AMOUNT INPUTS - Make them narrower */
-.s-amt, .amt {
-  width: 80% !important;
-  text-align: center;
-}
-
-.qty {
-  width: 60% !important;
-  text-align: center;
-}
-
-/* TEXTAREA STYLES INSIDE TABLES - AUTO-EXPANDING */
-.items textarea {
+  font-size: 0.85rem;
+  padding: 5px;
   width: 100%;
-  border: none;
-  padding: 8px;
-  margin: 0;
   background: transparent;
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.9rem;
-  resize: vertical;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  line-height: 1.4;
-  text-align: left;
-  min-height: 50px;
-  height: auto;
-  overflow: hidden;
 }
 
-/* GENERAL TEXTAREA STYLES - FOR TEXT WRAPPING */
-textarea {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  line-height: 1.4;
-  resize: vertical;
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.9rem;
-  box-sizing: border-box;
-  min-height: 40px;
-  height: auto;
+/* DESCRIPTION INPUTS - FOR TEXT WRAPPING */
+.s-desc, .desc {
+  text-align: left;
+  width: 100%;
 }
 
 /* BUTTONS */
@@ -185,6 +145,7 @@ button {
   background: #f0f0f0;
   margin-top: 5px;
   transition: background 0.2s;
+  font-size: 0.85rem;
 }
 
 button:hover {
@@ -196,9 +157,9 @@ button:hover {
   margin-top: 15px;
   border-top: 2px solid #000;
   padding-top: 10px;
-  max-width: 300px;
+  max-width: 280px;
   margin-left: auto;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .totals div {
@@ -215,16 +176,14 @@ button:hover {
 
 /* SIGN AREA */
 .sign {
-  margin-top: 40px;
-  font-size: 0.9rem;
+  margin-top: 30px;
+  font-size: 0.85rem;
 }
 
-.sign textarea {
+.sign input {
   border: 1px solid #ccc;
-  padding: 3px;
+  padding: 5px;
   width: 60%;
-  font-family: inherit;
-  min-height: 40px;
 }
 
 /* ACTION BUTTONS */
@@ -246,23 +205,21 @@ button {
   border: 1px solid #000;
 }
 
-.search-container textarea {
+.search-container input {
   width: 70%;
   padding: 5px;
   border: 1px solid #ccc;
   margin-right: 5px;
   display: inline-block;
-  vertical-align: middle;
-  min-height: 40px;
 }
 
 .search-container button {
-  vertical-align: middle;
+  display: inline-block;
 }
 
 #searchResults {
   margin-top: 10px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .found-receipt {
@@ -281,24 +238,24 @@ button {
 @media (max-width: 600px) {
   .info {
     grid-template-columns: 1fr;
+    gap: 5px;
   }
 
   .logos img {
-    width: 50px;
-    margin: 4px;
+    width: 45px;
   }
 
   .actions {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 5px;
   }
 
   button {
     width: 100%;
   }
 
-  .search-container textarea {
+  .search-container input {
     width: 100%;
     margin-bottom: 5px;
     margin-right: 0;
@@ -308,16 +265,8 @@ button {
     width: 100%;
   }
   
-  .sign textarea {
+  .sign input {
     width: 100%;
-  }
-  
-  /* Reset column widths for mobile */
-  #serviceTable th:first-child,
-  #serviceTable td:first-child,
-  #partsTable th:nth-child(2),
-  #partsTable td:nth-child(2) {
-    width: auto !important;
   }
 }
 
@@ -338,23 +287,4 @@ button {
     border: none;
     padding: 0;
   }
-  
-  textarea {
-    border: none;
-    resize: none;
-    overflow: visible;
-    min-height: auto;
-  }
-  
-  .items textarea {
-    border: none;
-    padding: 2px;
-    height: auto;
-    overflow: visible;
-  }
-}
-
-/* AUTO-EXPAND TEXTAREA STYLES */
-textarea {
-  transition: height 0.1s ease;
 }

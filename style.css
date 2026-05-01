@@ -95,44 +95,48 @@ table.items {
   vertical-align: top;
 }
 
-/* SERVICE TABLE - Make description wider, amount narrower */
-#serviceTable .items th:first-child,
-#serviceTable .items td:first-child {
+/* FIXED COLUMN WIDTHS - Force them to work */
+#serviceTable th:first-child,
+#serviceTable td:first-child {
   width: 80% !important;
 }
 
-#serviceTable .items th:last-child,
-#serviceTable .items td:last-child {
+#serviceTable th:last-child,
+#serviceTable td:last-child {
   width: 20% !important;
 }
 
-/* PARTS TABLE - QTY small, description wide, amount narrow */
-#partsTable .items th:first-child,
-#partsTable .items td:first-child {
+/* PARTS TABLE COLUMN WIDTHS */
+#partsTable th:first-child,
+#partsTable td:first-child {
   width: 15% !important;
 }
 
-#partsTable .items th:nth-child(2),
-#partsTable .items td:nth-child(2) {
+#partsTable th:nth-child(2),
+#partsTable td:nth-child(2) {
   width: 65% !important;
 }
 
-#partsTable .items th:last-child,
-#partsTable .items td:last-child {
+#partsTable th:last-child,
+#partsTable td:last-child {
   width: 20% !important;
 }
 
 .items input {
-  width: 90%;
   border: none;
   text-align: center;
   font-size: 0.9rem;
   padding: 4px;
 }
 
-/* AMOUNT INPUTS - Make them smaller */
+/* AMOUNT INPUTS - Make them narrower */
 .s-amt, .amt {
   width: 80% !important;
+  text-align: center;
+}
+
+.qty {
+  width: 60% !important;
   text-align: center;
 }
 
@@ -309,10 +313,10 @@ button {
   }
   
   /* Reset column widths for mobile */
-  #serviceTable .items th:first-child,
-  #serviceTable .items td:first-child,
-  #partsTable .items th:nth-child(2),
-  #partsTable .items td:nth-child(2) {
+  #serviceTable th:first-child,
+  #serviceTable td:first-child,
+  #partsTable th:nth-child(2),
+  #partsTable td:nth-child(2) {
     width: auto !important;
   }
 }

@@ -13,7 +13,7 @@ body {
 /* MAIN CONTAINER */
 .invoice-container {
   background: #fff;
-  padding: 8px;
+  padding: 5px;
   margin: auto;
   max-width: 700px;
   border: 1px solid #000;
@@ -24,43 +24,43 @@ body {
 .header {
   text-align: center;
   border-bottom: 1px solid #000;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
 }
 
 .header h2 {
-  margin: 0 0 2px 0;
-  font-size: 1rem;
+  margin: 0 0 0px 0;
+  font-size: 0.95rem;
 }
 
 .header p {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 /* LOGO AREA */
 .logos {
-  margin-top: 3px;
+  margin-top: 2px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .logos img {
-  width: 50px;
+  width: 45px;
   height: auto;
   object-fit: contain;
-  margin: 2px;
+  margin: 1px;
 }
 
 /* INFO SECTION */
 .info {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  font-size: 0.8rem;
-  margin-bottom: 5px;
+  gap: 3px;
+  font-size: 0.75rem;
+  margin-bottom: 3px;
 }
 
 .info label {
@@ -71,22 +71,22 @@ body {
   width: 95%;
   border: 1px solid #ccc;
   padding: 1px;
-  font-size: 0.8rem;
-  min-height: 24px;
+  font-size: 0.75rem;
+  min-height: 22px;
 }
 
 /* TABLE STYLES */
 h3 {
-  margin-top: 8px;
-  margin-bottom: 2px;
+  margin-top: 5px;
+  margin-bottom: 1px;
   text-align: left;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 table.items {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 .items th,
@@ -111,12 +111,12 @@ table.items {
 /* PARTS TABLE COLUMN WIDTHS */
 #partsTable th:first-child,
 #partsTable td:first-child {
-  width: 12% !important;
+  width: 10% !important;
 }
 
 #partsTable th:nth-child(2),
 #partsTable td:nth-child(2) {
-  width: 68% !important;
+  width: 70% !important;
 }
 
 #partsTable th:last-child,
@@ -127,7 +127,7 @@ table.items {
 .items input {
   border: none;
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   padding: 1px;
 }
 
@@ -142,25 +142,32 @@ table.items {
   text-align: center;
 }
 
-/* TEXTAREA STYLES INSIDE TABLES - EXTRA TIGHT */
+/* TEXTAREA STYLES INSIDE TABLES - SUPER TIGHT FOR PARTS */
 .items textarea {
   width: 100%;
   border: none;
-  padding: 1px;
+  padding: 0px;
   margin: 0;
   background: transparent;
   font-family: 'Courier Prime', monospace;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   resize: vertical;
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: break-word;
-  line-height: 1.1;
+  line-height: 1;
   text-align: left;
-  min-height: 18px;
+  min-height: 16px;
   height: auto;
   overflow: hidden;
+}
+
+/* Specific tighter spacing for parts description */
+.desc {
+  line-height: 1 !important;
+  padding: 0px !important;
+  margin: 0px !important;
 }
 
 /* GENERAL TEXTAREA STYLES */
@@ -172,9 +179,9 @@ textarea {
   line-height: 1.1;
   resize: vertical;
   font-family: 'Courier Prime', monospace;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   box-sizing: border-box;
-  min-height: 24px;
+  min-height: 22px;
   height: auto;
   padding: 1px;
 }
@@ -183,12 +190,12 @@ textarea {
 button {
   font-family: inherit;
   border: 1px solid #000;
-  padding: 2px 8px;
+  padding: 2px 6px;
   cursor: pointer;
   background: #f0f0f0;
-  margin-top: 3px;
+  margin-top: 2px;
   transition: background 0.2s;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 button:hover {
@@ -197,32 +204,32 @@ button:hover {
 
 /* TOTALS SECTION */
 .totals {
-  margin-top: 6px;
+  margin-top: 4px;
   border-top: 1px solid #000;
-  padding-top: 4px;
-  max-width: 280px;
+  padding-top: 3px;
+  max-width: 260px;
   margin-left: auto;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 .totals div {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1px;
-  line-height: 1.2;
+  margin-bottom: 0px;
+  line-height: 1.1;
 }
 
 .totals .grand {
   border-top: 1px solid #000;
   font-weight: bold;
-  padding-top: 2px;
-  margin-top: 1px;
+  padding-top: 1px;
+  margin-top: 0px;
 }
 
 /* SIGN AREA */
 .sign {
-  margin-top: 10px;
-  font-size: 0.8rem;
+  margin-top: 6px;
+  font-size: 0.75rem;
 }
 
 .sign textarea {
@@ -230,32 +237,32 @@ button:hover {
   padding: 1px;
   width: 60%;
   font-family: inherit;
-  min-height: 24px;
+  min-height: 22px;
 }
 
 /* ACTION BUTTONS */
 .actions {
   text-align: center;
-  margin-top: 8px;
+  margin-top: 5px;
 }
 
 button {
-  margin: 2px;
+  margin: 1px;
 }
 
 /* SEARCH SECTION */
 .search-container {
   background: #fff;
-  margin: 15px auto;
-  padding: 10px;
+  margin: 10px auto;
+  padding: 8px;
   max-width: 700px;
   border: 1px solid #000;
 }
 
 .search-container h3 {
   margin-top: 0;
-  margin-bottom: 5px;
-  font-size: 0.9rem;
+  margin-bottom: 3px;
+  font-size: 0.85rem;
 }
 
 .search-container textarea {
@@ -265,7 +272,7 @@ button {
   margin-right: 5px;
   display: inline-block;
   vertical-align: middle;
-  min-height: 28px;
+  min-height: 26px;
 }
 
 .search-container button {
@@ -273,39 +280,39 @@ button {
 }
 
 #searchResults {
-  margin-top: 8px;
-  font-size: 0.8rem;
+  margin-top: 5px;
+  font-size: 0.75rem;
 }
 
 .found-receipt {
   background: #f9f9f9;
   border: 1px solid #ddd;
-  padding: 4px;
-  margin-bottom: 4px;
+  padding: 3px;
+  margin-bottom: 3px;
 }
 
 .found-receipt button {
-  margin: 2px;
+  margin: 1px;
   font-size: 0.7rem;
-  padding: 1px 6px;
+  padding: 1px 5px;
 }
 
 /* RESPONSIVE DESIGN */
 @media (max-width: 600px) {
   .info {
     grid-template-columns: 1fr;
-    gap: 3px;
+    gap: 2px;
   }
 
   .logos img {
-    width: 40px;
-    margin: 2px;
+    width: 35px;
+    margin: 1px;
   }
 
   .actions {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 2px;
   }
 
   button {
@@ -314,7 +321,7 @@ button {
 
   .search-container textarea {
     width: 100%;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     margin-right: 0;
   }
   
@@ -327,7 +334,7 @@ button {
   }
 }
 
-/* PRINT STYLES - CRITICAL FOR ONE PAGE */
+/* PRINT STYLES - MAXIMUM COMPRESSION FOR ONE PAGE */
 @media print {
   button,
   .actions,
@@ -344,7 +351,7 @@ button {
   .invoice-container {
     box-shadow: none;
     border: none;
-    padding: 5px;
+    padding: 2px;
     margin: 0;
     max-width: 100%;
   }
@@ -355,6 +362,7 @@ button {
     overflow: visible;
     min-height: auto;
     padding: 0;
+    line-height: 1;
   }
   
   .items textarea {
@@ -362,24 +370,37 @@ button {
     padding: 0;
     height: auto;
     overflow: visible;
-    line-height: 1.1;
+    line-height: 1;
   }
   
   .items td {
-    padding: 1px;
+    padding: 0px;
   }
   
   .totals {
-    margin-top: 4px;
-    padding-top: 2px;
+    margin-top: 2px;
+    padding-top: 1px;
   }
   
   .header h2 {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+  }
+  
+  .header p {
+    font-size: 0.7rem;
   }
   
   .logos img {
-    width: 40px;
+    width: 35px;
+  }
+  
+  .info {
+    gap: 1px;
+  }
+  
+  h3 {
+    margin-top: 3px;
+    margin-bottom: 0px;
   }
 }
 

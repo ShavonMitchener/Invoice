@@ -16,16 +16,15 @@ function setupAutoExpand(element) {
   autoExpand(element);
 }
 
-// --- SETUP ALL EXISTING TEXTAREAS ---
-document.querySelectorAll("textarea").forEach(setupAutoExpand);
-
-// --- CALCULATE TOTALS ---
+// --- CALCULATE TOTALS (WITH DEPOSIT) ---
 function calculateTotals() {
+  // Calculate service total
   let serviceTotal = 0;
   document.querySelectorAll(".s-amt").forEach(input => {
     serviceTotal += parseFloat(input.value) || 0;
   });
 
+  // Calculate parts total
   let partsTotal = 0;
   document.querySelectorAll("#partsBody tr").forEach(row => {
     const qty = parseFloat(row.querySelector(".qty").value) || 0;
@@ -33,19 +32,42 @@ function calculateTotals() {
     partsTotal += qty * amt;
   });
 
+  const grandTotal = serviceTotal + partsTotal;
+  const deposit = parseFloat(document.getElementById("depositAmount").value) || 0;
+  const balanceAfterDeposit = grandTotal - deposit;
+
   document.getElementById("serviceTotal").textContent = serviceTotal.toFixed(2);
   document.getElementById("partsTotal").textContent = partsTotal.toFixed(2);
-  document.getElementById("grandTotal").textContent = (serviceTotal + partsTotal).toFixed(2);
+  document.getElementById("grandTotal").textContent = grandTotal.toFixed(2);
+  document.getElementById("balanceAfterDeposit").textContent = balanceAfterDeposit.toFixed(2);
+  
+  // Make balance red if negative
+  const balanceSpan = document.getElementById("balanceAfterDeposit");
+  if (balanceAfterDeposit < 0) {
+    balanceSpan.style.color = "#cc0000";
+    balanceSpan.style.fontWeight = "bold";
+  } else {
+    balanceSpan.style.color = "#000";
+    balanceSpan.style.fontWeight = "normal";
+  }
 }
 
-// --- ADD SERVICE ROW (SAME PATTERN AS PARTS) ---
-document.getElementById("addService").addEventListener("click", function() {
+// --- DELETE ROW FUNCTION ---
+function deleteRow(button, isService) {
+  const row = button.closest("tr");
+  row.remove();
+  calculateTotals();
+}
+
+// --- ADD SERVICE ROW ---
+function addServiceRow(desc = "", amt = "0.00") {
   const tbody = document.getElementById("serviceBody");
   const newRow = document.createElement("tr");
   
   newRow.innerHTML = `
-    <td><textarea class="s-desc" placeholder="Service description" rows="2"></textarea></td>
-    <td><input type="number" class="s-amt" min="0" step="0.01" value="0.00"></td>
+    <td><textarea class="s-desc" placeholder="Service description" rows="2">${escapeHtml(desc)}</textarea></td>
+    <td><input type="number" class="s-amt" min="0" step="0.01" value="${amt}"></td>
+    <td><button class="delete-btn" title="Remove">✖</button></td>
   `;
   
   tbody.appendChild(newRow);
@@ -54,18 +76,23 @@ document.getElementById("addService").addEventListener("click", function() {
   setupAutoExpand(newTextarea);
   
   newRow.querySelector(".s-amt").addEventListener("input", calculateTotals);
+  newRow.querySelector(".delete-btn").addEventListener("click", function() {
+    deleteRow(this, true);
+  });
+  
   calculateTotals();
-});
+}
 
 // --- ADD PART ROW ---
-document.getElementById("addPart").addEventListener("click", function() {
+function addPartRow(qty = "1", desc = "", amt = "0.00") {
   const tbody = document.getElementById("partsBody");
   const newRow = document.createElement("tr");
   
   newRow.innerHTML = `
-    <td><input type="number" class="qty" min="1" value="1"></td>
-    <td><textarea class="desc" placeholder="Part name" rows="2"></textarea></td>
-    <td><input type="number" class="amt" min="0" step="0.01" value="0.00"></td>
+    <td><input type="number" class="qty" min="1" value="${qty}"></td>
+    <td><textarea class="desc" placeholder="Part name" rows="2">${escapeHtml(desc)}</textarea></td>
+    <td><input type="number" class="amt" min="0" step="0.01" value="${amt}"></td>
+    <td><button class="delete-btn" title="Remove">✖</button></td>
   `;
   
   tbody.appendChild(newRow);
@@ -76,8 +103,38 @@ document.getElementById("addPart").addEventListener("click", function() {
   newRow.querySelectorAll("input").forEach(input => {
     input.addEventListener("input", calculateTotals);
   });
+  newRow.querySelector(".delete-btn").addEventListener("click", function() {
+    deleteRow(this, false);
+  });
+  
   calculateTotals();
-});
+}
+
+// --- SETUP EXISTING ROWS (for loading receipts) ---
+function setupExistingRows() {
+  document.querySelectorAll("#serviceBody tr").forEach(row => {
+    const textarea = row.querySelector("textarea");
+    if (textarea) setupAutoExpand(textarea);
+    const deleteBtn = row.querySelector(".delete-btn");
+    if (deleteBtn) deleteBtn.addEventListener("click", function() { deleteRow(this, true); });
+    row.querySelectorAll(".s-amt").forEach(i => i.addEventListener("input", calculateTotals));
+  });
+  
+  document.querySelectorAll("#partsBody tr").forEach(row => {
+    const textarea = row.querySelector("textarea");
+    if (textarea) setupAutoExpand(textarea);
+    const deleteBtn = row.querySelector(".delete-btn");
+    if (deleteBtn) deleteBtn.addEventListener("click", function() { deleteRow(this, false); });
+    row.querySelectorAll("input").forEach(i => i.addEventListener("input", calculateTotals));
+  });
+}
+
+// --- ADD BUTTONS ---
+document.getElementById("addService").addEventListener("click", () => addServiceRow());
+document.getElementById("addPart").addEventListener("click", () => addPartRow());
+
+// --- DEPOSIT INPUT LISTENER ---
+document.getElementById("depositAmount").addEventListener("input", calculateTotals);
 
 // --- SAVE RECEIPT ---
 document.getElementById("saveBtn").addEventListener("click", function() {
@@ -90,9 +147,11 @@ document.getElementById("saveBtn").addEventListener("click", function() {
     vehicle: document.getElementById("vehicle").value.trim(),
     fromStaff: document.getElementById("fromName").value.trim(),
     signedBy: document.getElementById("signedBy").value.trim(),
+    deposit: document.getElementById("depositAmount").value,
     serviceTotal: document.getElementById("serviceTotal").textContent,
     partsTotal: document.getElementById("partsTotal").textContent,
     grandTotal: document.getElementById("grandTotal").textContent,
+    balanceAfterDeposit: document.getElementById("balanceAfterDeposit").textContent,
     services: [],
     parts: []
   };
@@ -143,7 +202,7 @@ document.getElementById("searchBtn").addEventListener("click", function() {
       <strong>Invoice #${r.invoiceNo}</strong> | ${r.date}<br>
       Customer: ${r.customer} | Vehicle: ${r.vehicle}<br>
       From: ${r.fromStaff || ""} | Signed: ${r.signedBy || "N/A"}<br>
-      <strong>Service Total: $${r.serviceTotal}</strong> | <strong>Parts Total: $${r.partsTotal}</strong><br>
+      Deposit: $${r.deposit || "0.00"} | Balance: $${r.balanceAfterDeposit || r.grandTotal}<br>
       <strong>Grand Total: $${r.grandTotal}</strong><br>
       <button class="viewBtn">View Full Details</button>
       <button class="deleteBtn">Delete</button>
@@ -156,34 +215,28 @@ document.getElementById("searchBtn").addEventListener("click", function() {
       document.getElementById("vehicle").value = r.vehicle || "";
       document.getElementById("fromName").value = r.fromStaff || "";
       document.getElementById("signedBy").value = r.signedBy || "";
+      document.getElementById("depositAmount").value = r.deposit || "0.00";
       
       const serviceBody = document.getElementById("serviceBody");
       const partsBody = document.getElementById("partsBody");
       serviceBody.innerHTML = "";
       partsBody.innerHTML = "";
       
-      r.services.forEach(s => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td><textarea class="s-desc" rows="2">${escapeHtml(s.desc)}</textarea></td>
-          <td><input type="number" class="s-amt" min="0" step="0.01" value="${s.amt}"></td>
-        `;
-        serviceBody.appendChild(row);
-        setupAutoExpand(row.querySelector("textarea"));
-        row.querySelector(".s-amt").addEventListener("input", calculateTotals);
-      });
+      if (r.services && r.services.length > 0) {
+        r.services.forEach(s => {
+          addServiceRow(s.desc, s.amt);
+        });
+      } else {
+        addServiceRow();
+      }
       
-      r.parts.forEach(p => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td><input type="number" class="qty" min="1" value="${p.qty}"></td>
-          <td><textarea class="desc" rows="2">${escapeHtml(p.desc)}</textarea></td>
-          <td><input type="number" class="amt" min="0" step="0.01" value="${p.amt}"></td>
-        `;
-        partsBody.appendChild(row);
-        setupAutoExpand(row.querySelector("textarea"));
-        row.querySelectorAll("input").forEach(i => i.addEventListener("input", calculateTotals));
-      });
+      if (r.parts && r.parts.length > 0) {
+        r.parts.forEach(p => {
+          addPartRow(p.qty, p.desc, p.amt);
+        });
+      } else {
+        addPartRow();
+      }
       
       calculateTotals();
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -229,15 +282,11 @@ document.getElementById("resetBtn").addEventListener("click", function() {
   }
 });
 
-// --- INITIAL CALCULATION ---
-calculateTotals();
+// --- INITIAL SETUP ---
+// Add one empty service row
+addServiceRow();
+// Add one empty parts row
+addPartRow();
 
-// --- CLEAR ANY EXTRA TEXT OUTSIDE TABLES (FIX FOR SERVICE SECTION) ---
-// This removes any stray text nodes that might have been added
-document.querySelectorAll("#serviceBody").forEach(body => {
-  body.childNodes.forEach(node => {
-    if (node.nodeType === 3 && node.textContent.trim() !== "") {
-      node.remove();
-    }
-  });
-});
+setupExistingRows();
+calculateTotals();

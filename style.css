@@ -93,28 +93,38 @@ th, td {
 /* Service table widths */
 #serviceTable th:first-child,
 #serviceTable td:first-child {
-  width: 75%;
+  width: 70%;
+}
+
+#serviceTable th:nth-child(2),
+#serviceTable td:nth-child(2) {
+  width: 20%;
 }
 
 #serviceTable th:last-child,
 #serviceTable td:last-child {
-  width: 25%;
+  width: 10%;
 }
 
 /* Parts table widths */
 #partsTable th:first-child,
 #partsTable td:first-child {
-  width: 12%;
+  width: 10%;
 }
 
 #partsTable th:nth-child(2),
 #partsTable td:nth-child(2) {
-  width: 68%;
+  width: 55%;
+}
+
+#partsTable th:nth-child(3),
+#partsTable td:nth-child(3) {
+  width: 20%;
 }
 
 #partsTable th:last-child,
 #partsTable td:last-child {
-  width: 20%;
+  width: 15%;
 }
 
 .s-desc, .desc {
@@ -151,6 +161,25 @@ th, td {
   background: transparent;
 }
 
+.delete-btn {
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+}
+
+.delete-btn:hover {
+  background: #cc0000;
+}
+
 textarea:focus, input:focus {
   outline: none;
   background: #fafafa;
@@ -175,7 +204,7 @@ button:hover {
   border-top: 2px solid #000;
   padding-top: 8px;
   text-align: right;
-  max-width: 280px;
+  max-width: 320px;
   margin-left: auto;
 }
 
@@ -190,6 +219,42 @@ button:hover {
   padding-top: 4px;
   margin-top: 3px;
   font-size: 0.9rem;
+}
+
+.totals .deposit-line {
+  color: #cc0000;
+  font-weight: bold;
+  border-top: 1px solid #cc0000;
+  padding-top: 4px;
+  margin-top: 3px;
+}
+
+.totals .balance-line {
+  font-weight: bold;
+  font-size: 1rem;
+  border-top: 2px solid #000;
+  padding-top: 4px;
+  margin-top: 3px;
+}
+
+.deposit-section {
+  margin-top: 8px;
+  padding: 5px;
+  background: #ffeeee;
+  border: 1px solid #ffaaaa;
+}
+
+.deposit-section label {
+  font-weight: bold;
+  color: #cc0000;
+}
+
+.deposit-section input {
+  width: 120px;
+  padding: 3px;
+  border: 1px solid #cc0000;
+  font-family: 'Courier Prime', monospace;
+  text-align: right;
 }
 
 .sign {
@@ -300,10 +365,14 @@ button:hover {
   th, td {
     padding: 3px;
   }
+  
+  .deposit-section input {
+    width: 100px;
+  }
 }
 
 @media print {
-  button, .actions, .search-container {
+  button, .actions, .search-container, .delete-btn {
     display: none;
   }
   

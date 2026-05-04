@@ -1,3 +1,4 @@
+/* GLOBAL RESET */
 * {
   font-family: 'Courier Prime', monospace;
   box-sizing: border-box;
@@ -89,9 +90,10 @@ th, td {
   vertical-align: top;
 }
 
+/* Service table widths (with delete column) */
 #serviceTable th:first-child,
 #serviceTable td:first-child {
-  width: 70%;
+  width: 65%;
 }
 
 #serviceTable th:nth-child(2),
@@ -101,9 +103,10 @@ th, td {
 
 #serviceTable th:last-child,
 #serviceTable td:last-child {
-  width: 10%;
+  width: 15%;
 }
 
+/* Parts table widths (with delete column) */
 #partsTable th:first-child,
 #partsTable td:first-child {
   width: 10%;
@@ -163,8 +166,8 @@ th, td {
   color: white;
   border: none;
   border-radius: 50%;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   font-size: 12px;
   cursor: pointer;
   text-align: center;
@@ -365,6 +368,7 @@ button:hover {
     display: none;
   }
   
+  /* Hide the delete button column when printing */
   #serviceTable th:last-child,
   #serviceTable td:last-child,
   #partsTable th:last-child,

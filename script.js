@@ -1,20 +1,12 @@
-// Basic setup
 document.getElementById("date").textContent = new Date().toLocaleDateString();
 let invoiceNo = localStorage.getItem("invoiceNo") || 1;
 document.getElementById("invoiceNo").textContent = invoiceNo.toString().padStart(3, "0");
 
-// Auto-expand textarea
 function autoExpand(textarea) {
   textarea.style.height = "auto";
   textarea.style.height = Math.min(textarea.scrollHeight, 100) + "px";
 }
 
-function setupAutoExpand(element) {
-  element.addEventListener("input", function() { autoExpand(this); });
-  autoExpand(element);
-}
-
-// Calculate totals - NEW LOGIC
 function calculateTotals() {
   let serviceTotal = 0;
   let partsTotal = 0;
@@ -31,46 +23,40 @@ function calculateTotals() {
   
   let subtotal = serviceTotal + partsTotal;
   let deposit = parseFloat(document.getElementById("depositAmount").value) || 0;
-  let grandTotal = subtotal - deposit;  // Grand Total = Total - Deposit
+  let grandTotal = subtotal - deposit;
   
   document.getElementById("serviceTotal").textContent = serviceTotal.toFixed(2);
   document.getElementById("partsTotal").textContent = partsTotal.toFixed(2);
   document.getElementById("subtotal").textContent = subtotal.toFixed(2);
   document.getElementById("grandTotal").textContent = grandTotal.toFixed(2);
-  
-  // Make grand total red if negative (overpaid)
-  if (grandTotal < 0) {
-    document.getElementById("grandTotal").style.color = "#cc0000";
-  } else {
-    document.getElementById("grandTotal").style.color = "#000";
-  }
 }
 
-// Delete row
 function deleteRow(btn) {
   btn.parentElement.parentElement.remove();
   calculateTotals();
 }
 
-// Add service row
 function addServiceRow(desc, amt) {
   let body = document.getElementById("serviceBody");
   let row = document.createElement("tr");
   let d = desc || "";
   let a = amt || "0.00";
   
-  row.innerHTML = '<tr><textarea class="s-desc" placeholder="Service description" rows="2">' + d + '</textarea></td>' +
+  row.innerHTML = '<td><textarea class="s-desc" placeholder="Service description" rows="2">' + d + '</textarea></td>' +
                   '<td><input type="number" class="s-amt" min="0" step="0.01" value="' + a + '"></td>' +
                   '<td><button class="delete-btn">✖</button></td>';
   
   body.appendChild(row);
-  setupAutoExpand(row.querySelector("textarea"));
+  
+  let ta = row.querySelector("textarea");
+  ta.addEventListener("input", function() { autoExpand(this); });
+  autoExpand(ta);
+  
   row.querySelector(".s-amt").addEventListener("input", calculateTotals);
   row.querySelector(".delete-btn").addEventListener("click", function() { deleteRow(this); });
   calculateTotals();
 }
 
-// Add part row
 function addPartRow(qty, desc, amt) {
   let body = document.getElementById("partsBody");
   let row = document.createElement("tr");
@@ -84,18 +70,20 @@ function addPartRow(qty, desc, amt) {
                   '<td><button class="delete-btn">✖</button></td>';
   
   body.appendChild(row);
-  setupAutoExpand(row.querySelector("textarea"));
+  
+  let ta = row.querySelector("textarea");
+  ta.addEventListener("input", function() { autoExpand(this); });
+  autoExpand(ta);
+  
   row.querySelectorAll("input").forEach(function(i) { i.addEventListener("input", calculateTotals); });
   row.querySelector(".delete-btn").addEventListener("click", function() { deleteRow(this); });
   calculateTotals();
 }
 
-// Add buttons
 document.getElementById("addService").addEventListener("click", function() { addServiceRow(); });
 document.getElementById("addPart").addEventListener("click", function() { addPartRow(); });
 document.getElementById("depositAmount").addEventListener("input", calculateTotals);
 
-// Save receipt
 document.getElementById("saveBtn").addEventListener("click", function() {
   calculateTotals();
   
@@ -136,7 +124,6 @@ document.getElementById("saveBtn").addEventListener("click", function() {
   alert("Receipt saved!");
 });
 
-// Search receipts
 document.getElementById("searchBtn").addEventListener("click", function() {
   let query = document.getElementById("searchInput").value.trim().toLowerCase();
   let results = document.getElementById("searchResults");
@@ -158,8 +145,7 @@ document.getElementById("searchBtn").addEventListener("click", function() {
     div.innerHTML = '<strong>Invoice #' + r.invoiceNo + '</strong> | ' + r.date + '<br>' +
                     'Customer: ' + r.customer + ' | Vehicle: ' + r.vehicle + '<br>' +
                     'From: ' + (r.fromStaff || "") + ' | Signed: ' + (r.signedBy || "N/A") + '<br>' +
-                    'Deposit: $' + (r.deposit || "0.00") + ' | Grand Total: $' + (r.grandTotal || r.subtotal) + '<br>' +
-                    '<strong>Subtotal: $' + (r.subtotal || r.grandTotal) + '</strong><br>' +
+                    'Deposit: $' + (r.deposit || "0.00") + ' | Grand Total: $' + r.grandTotal + '<br>' +
                     '<button class="viewBtn">Load Invoice</button> ' +
                     '<button class="deleteBtn">Delete</button><hr>';
     
@@ -200,7 +186,6 @@ document.getElementById("searchBtn").addEventListener("click", function() {
   });
 });
 
-// Print and new invoice
 document.getElementById("printBtn").addEventListener("click", function() { window.print(); });
 document.getElementById("newBtn").addEventListener("click", function() {
   invoiceNo++;
@@ -214,7 +199,6 @@ document.getElementById("resetBtn").addEventListener("click", function() {
   }
 });
 
-// Start with one empty row each
 addServiceRow();
 addPartRow();
 calculateTotals();

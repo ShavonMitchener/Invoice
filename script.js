@@ -14,7 +14,7 @@ function setupAutoExpand(element) {
   autoExpand(element);
 }
 
-// Calculate totals with deposit
+// Calculate totals - NEW LOGIC
 function calculateTotals() {
   let serviceTotal = 0;
   let partsTotal = 0;
@@ -29,19 +29,20 @@ function calculateTotals() {
     partsTotal += qty * amt;
   });
   
-  let grandTotal = serviceTotal + partsTotal;
+  let subtotal = serviceTotal + partsTotal;
   let deposit = parseFloat(document.getElementById("depositAmount").value) || 0;
-  let balance = grandTotal - deposit;
+  let grandTotal = subtotal - deposit;  // Grand Total = Total - Deposit
   
   document.getElementById("serviceTotal").textContent = serviceTotal.toFixed(2);
   document.getElementById("partsTotal").textContent = partsTotal.toFixed(2);
+  document.getElementById("subtotal").textContent = subtotal.toFixed(2);
   document.getElementById("grandTotal").textContent = grandTotal.toFixed(2);
-  document.getElementById("balanceAfterDeposit").textContent = balance.toFixed(2);
   
-  if (balance < 0) {
-    document.getElementById("balanceAfterDeposit").style.color = "#cc0000";
+  // Make grand total red if negative (overpaid)
+  if (grandTotal < 0) {
+    document.getElementById("grandTotal").style.color = "#cc0000";
   } else {
-    document.getElementById("balanceAfterDeposit").style.color = "#000";
+    document.getElementById("grandTotal").style.color = "#000";
   }
 }
 
@@ -58,7 +59,7 @@ function addServiceRow(desc, amt) {
   let d = desc || "";
   let a = amt || "0.00";
   
-  row.innerHTML = '<td><textarea class="s-desc" placeholder="Service description" rows="2">' + d + '</textarea></td>' +
+  row.innerHTML = '<tr><textarea class="s-desc" placeholder="Service description" rows="2">' + d + '</textarea></td>' +
                   '<td><input type="number" class="s-amt" min="0" step="0.01" value="' + a + '"></td>' +
                   '<td><button class="delete-btn">✖</button></td>';
   
@@ -108,8 +109,8 @@ document.getElementById("saveBtn").addEventListener("click", function() {
     deposit: document.getElementById("depositAmount").value,
     serviceTotal: document.getElementById("serviceTotal").textContent,
     partsTotal: document.getElementById("partsTotal").textContent,
+    subtotal: document.getElementById("subtotal").textContent,
     grandTotal: document.getElementById("grandTotal").textContent,
-    balanceAfterDeposit: document.getElementById("balanceAfterDeposit").textContent,
     services: [],
     parts: []
   };
@@ -157,8 +158,8 @@ document.getElementById("searchBtn").addEventListener("click", function() {
     div.innerHTML = '<strong>Invoice #' + r.invoiceNo + '</strong> | ' + r.date + '<br>' +
                     'Customer: ' + r.customer + ' | Vehicle: ' + r.vehicle + '<br>' +
                     'From: ' + (r.fromStaff || "") + ' | Signed: ' + (r.signedBy || "N/A") + '<br>' +
-                    'Deposit: $' + (r.deposit || "0.00") + ' | Balance: $' + (r.balanceAfterDeposit || r.grandTotal) + '<br>' +
-                    '<strong>Grand Total: $' + r.grandTotal + '</strong><br>' +
+                    'Deposit: $' + (r.deposit || "0.00") + ' | Grand Total: $' + (r.grandTotal || r.subtotal) + '<br>' +
+                    '<strong>Subtotal: $' + (r.subtotal || r.grandTotal) + '</strong><br>' +
                     '<button class="viewBtn">Load Invoice</button> ' +
                     '<button class="deleteBtn">Delete</button><hr>';
     

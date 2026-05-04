@@ -392,4 +392,23 @@ button:hover {
     resize: none;
     overflow: visible;
   }
+
+  /* NB NOTE STYLES */
+.nb-note {
+  margin-top: 15px;
+  padding: 8px;
+  background: #f9f9f9;
+  border-left: 4px solid #cc0000;
+  font-size: 0.75rem;
+  font-style: italic;
+  color: #555;
+  text-align: center;
+}
+
+@media print {
+  .nb-note {
+    background: none;
+    border-left: 1px solid #aaa;
+    color: #000;
+  }
 }

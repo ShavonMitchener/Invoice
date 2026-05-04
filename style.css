@@ -1,4 +1,3 @@
-/* GLOBAL RESET */
 * {
   font-family: 'Courier Prime', monospace;
   box-sizing: border-box;
@@ -361,13 +360,11 @@ button:hover {
   }
 }
 
-/* PRINT STYLES - Hide delete buttons and their columns */
 @media print {
   button, .actions, .search-container, .delete-btn {
     display: none;
   }
   
-  /* Hide the entire delete button column */
   #serviceTable th:last-child,
   #serviceTable td:last-child,
   #partsTable th:last-child,

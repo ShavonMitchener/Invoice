@@ -211,24 +211,15 @@ button:hover {
   font-size: 0.85rem;
 }
 
-.totals .grand {
+.totals .subtotal {
   font-weight: bold;
-  border-top: 1px solid #000;
-  padding-top: 4px;
-  margin-top: 3px;
-  font-size: 0.9rem;
-}
-
-.totals .deposit-line {
-  color: #cc0000;
-  font-weight: bold;
-  border-top: 1px solid #cc0000;
-  padding-top: 4px;
-  margin-top: 3px;
+  border-bottom: 1px solid #000;
+  padding-bottom: 3px;
+  margin-bottom: 5px;
 }
 
 .deposit-section {
-  margin-top: 8px;
+  margin-top: 5px;
   padding: 5px;
   background: #ffeeee;
   border: 1px solid #ffaaaa;
@@ -245,6 +236,15 @@ button:hover {
   border: 1px solid #cc0000;
   font-family: 'Courier Prime', monospace;
   text-align: right;
+}
+
+.totals .grand {
+  font-weight: bold;
+  font-size: 1rem;
+  border-top: 2px solid #000;
+  padding-top: 6px;
+  margin-top: 5px;
+  color: #000;
 }
 
 .sign {
@@ -381,5 +381,9 @@ button:hover {
     border: none;
     resize: none;
     overflow: visible;
+  }
+  
+  .delete-btn {
+    display: none !important;
   }
 }

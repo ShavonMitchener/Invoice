@@ -90,7 +90,6 @@ th, td {
   vertical-align: top;
 }
 
-/* Service table widths */
 #serviceTable th:first-child,
 #serviceTable td:first-child {
   width: 70%;
@@ -106,7 +105,6 @@ th, td {
   width: 10%;
 }
 
-/* Parts table widths */
 #partsTable th:first-child,
 #partsTable td:first-child {
   width: 10%;

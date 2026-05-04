@@ -361,8 +361,17 @@ button:hover {
   }
 }
 
+/* PRINT STYLES - Hide delete buttons and their columns */
 @media print {
   button, .actions, .search-container, .delete-btn {
+    display: none;
+  }
+  
+  /* Hide the entire delete button column */
+  #serviceTable th:last-child,
+  #serviceTable td:last-child,
+  #partsTable th:last-child,
+  #partsTable td:last-child {
     display: none;
   }
   
@@ -381,9 +390,5 @@ button:hover {
     border: none;
     resize: none;
     overflow: visible;
-  }
-  
-  .delete-btn {
-    display: none !important;
   }
 }

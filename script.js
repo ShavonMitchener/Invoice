@@ -18,31 +18,28 @@ function setupAutoExpand(element) {
 
 // --- CALCULATE TOTALS (WITH DEPOSIT) ---
 function calculateTotals() {
-  // Calculate service total
   let serviceTotal = 0;
-  document.querySelectorAll(".s-amt").forEach(input => {
+  document.querySelectorAll(".s-amt").forEach(function(input) {
     serviceTotal += parseFloat(input.value) || 0;
   });
 
-  // Calculate parts total
   let partsTotal = 0;
-  document.querySelectorAll("#partsBody tr").forEach(row => {
-    const qty = parseFloat(row.querySelector(".qty").value) || 0;
-    const amt = parseFloat(row.querySelector(".amt").value) || 0;
+  document.querySelectorAll("#partsBody tr").forEach(function(row) {
+    var qty = parseFloat(row.querySelector(".qty").value) || 0;
+    var amt = parseFloat(row.querySelector(".amt").value) || 0;
     partsTotal += qty * amt;
   });
 
-  const grandTotal = serviceTotal + partsTotal;
-  const deposit = parseFloat(document.getElementById("depositAmount").value) || 0;
-  const balanceAfterDeposit = grandTotal - deposit;
+  var grandTotal = serviceTotal + partsTotal;
+  var deposit = parseFloat(document.getElementById("depositAmount").value) || 0;
+  var balanceAfterDeposit = grandTotal - deposit;
 
   document.getElementById("serviceTotal").textContent = serviceTotal.toFixed(2);
   document.getElementById("partsTotal").textContent = partsTotal.toFixed(2);
   document.getElementById("grandTotal").textContent = grandTotal.toFixed(2);
   document.getElementById("balanceAfterDeposit").textContent = balanceAfterDeposit.toFixed(2);
   
-  // Make balance red if negative
-  const balanceSpan = document.getElementById("balanceAfterDeposit");
+  var balanceSpan = document.getElementById("balanceAfterDeposit");
   if (balanceAfterDeposit < 0) {
     balanceSpan.style.color = "#cc0000";
     balanceSpan.style.fontWeight = "bold";
@@ -53,85 +50,81 @@ function calculateTotals() {
 }
 
 // --- DELETE ROW FUNCTION ---
-function deleteRow(button, isService) {
-  const row = button.closest("tr");
+function deleteRow(button) {
+  var row = button.parentElement.parentElement;
   row.remove();
   calculateTotals();
 }
 
 // --- ADD SERVICE ROW ---
-function addServiceRow(desc = "", amt = "0.00") {
-  const tbody = document.getElementById("serviceBody");
-  const newRow = document.createElement("tr");
+function addServiceRow(desc, amt) {
+  var tbody = document.getElementById("serviceBody");
+  var newRow = document.createElement("tr");
   
-  newRow.innerHTML = `
-    <td><textarea class="s-desc" placeholder="Service description" rows="2">${escapeHtml(desc)}</textarea></td>
-    <td><input type="number" class="s-amt" min="0" step="0.01" value="${amt}"></td>
-    <td><button class="delete-btn" title="Remove">✖</button></td>
-  `;
+  var descValue = desc || "";
+  var amtValue = amt || "0.00";
+  
+  newRow.innerHTML = '<td><textarea class="s-desc" placeholder="Service description" rows="2">' + escapeHtml(descValue) + '</textarea></td>' +
+                     '<td><input type="number" class="s-amt" min="0" step="0.01" value="' + amtValue + '"></td>' +
+                     '<td><button class="delete-btn" title="Remove">✖</button></td>';
   
   tbody.appendChild(newRow);
   
-  const newTextarea = newRow.querySelector("textarea");
+  var newTextarea = newRow.querySelector("textarea");
   setupAutoExpand(newTextarea);
   
   newRow.querySelector(".s-amt").addEventListener("input", calculateTotals);
   newRow.querySelector(".delete-btn").addEventListener("click", function() {
-    deleteRow(this, true);
+    deleteRow(this);
   });
   
   calculateTotals();
 }
 
 // --- ADD PART ROW ---
-function addPartRow(qty = "1", desc = "", amt = "0.00") {
-  const tbody = document.getElementById("partsBody");
-  const newRow = document.createElement("tr");
+function addPartRow(qty, desc, amt) {
+  var tbody = document.getElementById("partsBody");
+  var newRow = document.createElement("tr");
   
-  newRow.innerHTML = `
-    <td><input type="number" class="qty" min="1" value="${qty}"></td>
-    <td><textarea class="desc" placeholder="Part name" rows="2">${escapeHtml(desc)}</textarea></td>
-    <td><input type="number" class="amt" min="0" step="0.01" value="${amt}"></td>
-    <td><button class="delete-btn" title="Remove">✖</button></td>
-  `;
+  var qtyValue = qty || "1";
+  var descValue = desc || "";
+  var amtValue = amt || "0.00";
+  
+  newRow.innerHTML = '<td><input type="number" class="qty" min="1" value="' + qtyValue + '"></td>' +
+                     '<td><textarea class="desc" placeholder="Part name" rows="2">' + escapeHtml(descValue) + '</textarea></td>' +
+                     '<td><input type="number" class="amt" min="0" step="0.01" value="' + amtValue + '"></td>' +
+                     '<td><button class="delete-btn" title="Remove">✖</button></td>';
   
   tbody.appendChild(newRow);
   
-  const newTextarea = newRow.querySelector("textarea");
+  var newTextarea = newRow.querySelector("textarea");
   setupAutoExpand(newTextarea);
   
-  newRow.querySelectorAll("input").forEach(input => {
+  newRow.querySelectorAll("input").forEach(function(input) {
     input.addEventListener("input", calculateTotals);
   });
   newRow.querySelector(".delete-btn").addEventListener("click", function() {
-    deleteRow(this, false);
+    deleteRow(this);
   });
   
   calculateTotals();
 }
 
-// --- SETUP EXISTING ROWS (for loading receipts) ---
-function setupExistingRows() {
-  document.querySelectorAll("#serviceBody tr").forEach(row => {
-    const textarea = row.querySelector("textarea");
-    if (textarea) setupAutoExpand(textarea);
-    const deleteBtn = row.querySelector(".delete-btn");
-    if (deleteBtn) deleteBtn.addEventListener("click", function() { deleteRow(this, true); });
-    row.querySelectorAll(".s-amt").forEach(i => i.addEventListener("input", calculateTotals));
-  });
-  
-  document.querySelectorAll("#partsBody tr").forEach(row => {
-    const textarea = row.querySelector("textarea");
-    if (textarea) setupAutoExpand(textarea);
-    const deleteBtn = row.querySelector(".delete-btn");
-    if (deleteBtn) deleteBtn.addEventListener("click", function() { deleteRow(this, false); });
-    row.querySelectorAll("input").forEach(i => i.addEventListener("input", calculateTotals));
-  });
+function escapeHtml(text) {
+  if (!text) return "";
+  var div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
 }
 
 // --- ADD BUTTONS ---
-document.getElementById("addService").addEventListener("click", () => addServiceRow());
-document.getElementById("addPart").addEventListener("click", () => addPartRow());
+document.getElementById("addService").addEventListener("click", function() {
+  addServiceRow();
+});
+
+document.getElementById("addPart").addEventListener("click", function() {
+  addPartRow();
+});
 
 // --- DEPOSIT INPUT LISTENER ---
 document.getElementById("depositAmount").addEventListener("input", calculateTotals);
@@ -140,7 +133,7 @@ document.getElementById("depositAmount").addEventListener("input", calculateTota
 document.getElementById("saveBtn").addEventListener("click", function() {
   calculateTotals();
   
-  const receipt = {
+  var receipt = {
     invoiceNo: invoiceNo.toString().padStart(3, "0"),
     date: document.getElementById("date").textContent,
     customer: document.getElementById("custName").value.trim(),
@@ -156,14 +149,14 @@ document.getElementById("saveBtn").addEventListener("click", function() {
     parts: []
   };
 
-  document.querySelectorAll("#serviceBody tr").forEach(row => {
+  document.querySelectorAll("#serviceBody tr").forEach(function(row) {
     receipt.services.push({
       desc: row.querySelector(".s-desc").value,
       amt: row.querySelector(".s-amt").value
     });
   });
 
-  document.querySelectorAll("#partsBody tr").forEach(row => {
+  document.querySelectorAll("#partsBody tr").forEach(function(row) {
     receipt.parts.push({
       qty: row.querySelector(".qty").value,
       desc: row.querySelector(".desc").value,
@@ -171,7 +164,7 @@ document.getElementById("saveBtn").addEventListener("click", function() {
     });
   });
 
-  const receipts = JSON.parse(localStorage.getItem("receipts") || "[]");
+  var receipts = JSON.parse(localStorage.getItem("receipts") || "[]");
   receipts.push(receipt);
   localStorage.setItem("receipts", JSON.stringify(receipts));
   
@@ -180,50 +173,45 @@ document.getElementById("saveBtn").addEventListener("click", function() {
 
 // --- SEARCH RECEIPTS ---
 document.getElementById("searchBtn").addEventListener("click", function() {
-  const query = document.getElementById("searchInput").value.trim().toLowerCase();
-  const resultsArea = document.getElementById("searchResults");
+  var query = document.getElementById("searchInput").value.trim().toLowerCase();
+  var resultsArea = document.getElementById("searchResults");
   resultsArea.innerHTML = "";
   
-  const receipts = JSON.parse(localStorage.getItem("receipts") || "[]");
-  const matches = receipts.filter(r => 
-    r.invoiceNo.toLowerCase().includes(query) || 
-    r.customer.toLowerCase().includes(query)
-  );
+  var receipts = JSON.parse(localStorage.getItem("receipts") || "[]");
+  var matches = receipts.filter(function(r) {
+    return r.invoiceNo.toLowerCase().includes(query) || r.customer.toLowerCase().includes(query);
+  });
 
   if (matches.length === 0) {
     resultsArea.innerHTML = "<p>No receipts found.</p>";
     return;
   }
 
-  matches.forEach(r => {
-    const div = document.createElement("div");
+  matches.forEach(function(r) {
+    var div = document.createElement("div");
     div.className = "found-receipt";
-    div.innerHTML = `
-      <strong>Invoice #${r.invoiceNo}</strong> | ${r.date}<br>
-      Customer: ${r.customer} | Vehicle: ${r.vehicle}<br>
-      From: ${r.fromStaff || ""} | Signed: ${r.signedBy || "N/A"}<br>
-      Deposit: $${r.deposit || "0.00"} | Balance: $${r.balanceAfterDeposit || r.grandTotal}<br>
-      <strong>Grand Total: $${r.grandTotal}</strong><br>
-      <button class="viewBtn">View Full Details</button>
-      <button class="deleteBtn">Delete</button>
-      <hr>
-    `;
-
+    div.innerHTML = '<strong>Invoice #' + r.invoiceNo + '</strong> | ' + r.date + '<br>' +
+                    'Customer: ' + r.customer + ' | Vehicle: ' + r.vehicle + '<br>' +
+                    'From: ' + (r.fromStaff || "") + ' | Signed: ' + (r.signedBy || "N/A") + '<br>' +
+                    'Deposit: $' + (r.deposit || "0.00") + ' | Balance: $' + (r.balanceAfterDeposit || r.grandTotal) + '<br>' +
+                    '<strong>Grand Total: $' + r.grandTotal + '</strong><br>' +
+                    '<button class="viewBtn">View Full Details</button>' +
+                    '<button class="deleteBtn">Delete</button><hr>';
+    
     div.querySelector(".viewBtn").addEventListener("click", function() {
-      // Load receipt into form
       document.getElementById("custName").value = r.customer || "";
       document.getElementById("vehicle").value = r.vehicle || "";
       document.getElementById("fromName").value = r.fromStaff || "";
       document.getElementById("signedBy").value = r.signedBy || "";
       document.getElementById("depositAmount").value = r.deposit || "0.00";
       
-      const serviceBody = document.getElementById("serviceBody");
-      const partsBody = document.getElementById("partsBody");
+      var serviceBody = document.getElementById("serviceBody");
+      var partsBody = document.getElementById("partsBody");
       serviceBody.innerHTML = "";
       partsBody.innerHTML = "";
       
       if (r.services && r.services.length > 0) {
-        r.services.forEach(s => {
+        r.services.forEach(function(s) {
           addServiceRow(s.desc, s.amt);
         });
       } else {
@@ -231,7 +219,7 @@ document.getElementById("searchBtn").addEventListener("click", function() {
       }
       
       if (r.parts && r.parts.length > 0) {
-        r.parts.forEach(p => {
+        r.parts.forEach(function(p) {
           addPartRow(p.qty, p.desc, p.amt);
         });
       } else {
@@ -245,8 +233,10 @@ document.getElementById("searchBtn").addEventListener("click", function() {
 
     div.querySelector(".deleteBtn").addEventListener("click", function() {
       if (confirm("Delete invoice #" + r.invoiceNo + "?")) {
-        let allReceipts = JSON.parse(localStorage.getItem("receipts") || "[]");
-        allReceipts = allReceipts.filter(x => x.invoiceNo !== r.invoiceNo);
+        var allReceipts = JSON.parse(localStorage.getItem("receipts") || "[]");
+        allReceipts = allReceipts.filter(function(x) {
+          return x.invoiceNo !== r.invoiceNo;
+        });
         localStorage.setItem("receipts", JSON.stringify(allReceipts));
         div.remove();
         alert("Invoice deleted.");
@@ -256,13 +246,6 @@ document.getElementById("searchBtn").addEventListener("click", function() {
     resultsArea.appendChild(div);
   });
 });
-
-function escapeHtml(text) {
-  if (!text) return "";
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
-}
 
 // --- OTHER BUTTONS ---
 document.getElementById("printBtn").addEventListener("click", function() {
@@ -283,10 +266,6 @@ document.getElementById("resetBtn").addEventListener("click", function() {
 });
 
 // --- INITIAL SETUP ---
-// Add one empty service row
 addServiceRow();
-// Add one empty parts row
 addPartRow();
-
-setupExistingRows();
 calculateTotals();

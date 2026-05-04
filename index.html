@@ -49,13 +49,10 @@
         <tr>
           <th>DESCRIPTION</th>
           <th>AMOUNT</th>
+          <th></th>
         </tr>
       </thead>
       <tbody id="serviceBody">
-        <tr>
-          <td><textarea class="s-desc" placeholder="Service description" rows="2"></textarea></td>
-          <td><input type="number" class="s-amt" min="0" step="0.01" value="0.00"></td>
-        </tr>
       </tbody>
     </table>
     <button id="addService">+ Add Service</button>
@@ -67,22 +64,23 @@
           <th>QTY</th>
           <th>DESCRIPTION</th>
           <th>AMOUNT</th>
+          <th></th>
         </tr>
       </thead>
       <tbody id="partsBody">
-        <tr>
-          <td><input type="number" class="qty" min="1" value="1"></td>
-          <td><textarea class="desc" placeholder="Part name" rows="2"></textarea></td>
-          <td><input type="number" class="amt" min="0" step="0.01" value="0.00"></td>
-        </tr>
       </tbody>
     </table>
     <button id="addPart">+ Add Part</button>
 
     <div class="totals">
-      <div>Service Total: <span id="serviceTotal">0.00</span></div>
-      <div>Parts Total: <span id="partsTotal">0.00</span></div>
-      <div class="grand">Grand Total: <span id="grandTotal">0.00</span></div>
+      <div>Service Total: $<span id="serviceTotal">0.00</span></div>
+      <div>Parts Total: $<span id="partsTotal">0.00</span></div>
+      <div class="deposit-section">
+        <label>DEPOSIT: $</label>
+        <input type="number" id="depositAmount" min="0" step="0.01" value="0.00">
+      </div>
+      <div class="deposit-line">Remaining Balance: $<span id="balanceAfterDeposit">0.00</span></div>
+      <div class="grand">Grand Total: $<span id="grandTotal">0.00</span></div>
     </div>
 
     <div class="sign">

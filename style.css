@@ -89,6 +89,7 @@ th, td {
   vertical-align: top;
 }
 
+/* Service table original styles - will be overridden by fixes below */
 #serviceTable th:first-child,
 #serviceTable td:first-child {
   width: 65%;
@@ -104,6 +105,7 @@ th, td {
   width: 15%;
 }
 
+/* Parts table original styles - will be overridden by fixes below */
 #partsTable th:first-child,
 #partsTable td:first-child {
   width: 10%;
@@ -461,4 +463,73 @@ button:hover {
 #partsTable td:last-child {
   text-align: center;
   vertical-align: middle;
+}
+
+/* ========== FIX: Align AMOUNT columns across Service & Parts tables ========== */
+
+/* Make both tables use the same column sizing logic */
+.items {
+  width: 100%;
+}
+
+/* Service table - DESCRIPTION takes available space, AMOUNT has consistent width */
+#serviceTable {
+  width: 100%;
+}
+
+#serviceTable th:first-child,
+#serviceTable td:first-child {
+  width: auto;  /* stretches naturally */
+}
+
+#serviceTable th:nth-child(2),
+#serviceTable td:nth-child(2) {
+  width: 25%;  /* relative width - adapts to screen */
+}
+
+/* Service table delete column (if any) */
+#serviceTable th:last-child,
+#serviceTable td:last-child {
+  width: 5%;
+  min-width: 35px;
+}
+
+/* Parts table - match AMOUNT column width to Service table */
+#partsTable {
+  width: 100%;
+}
+
+/* QTY column - fixed small width */
+#partsTable th:first-child,
+#partsTable td:first-child {
+  width: 8%;
+  min-width: 50px;
+}
+
+/* DESCRIPTION column - takes remaining space */
+#partsTable th:nth-child(2),
+#partsTable td:nth-child(2) {
+  width: auto;
+}
+
+/* UNIT PRICE column - reasonable width */
+#partsTable th:nth-child(3),
+#partsTable td:nth-child(3) {
+  width: 18%;
+  min-width: 80px;
+}
+
+/* AMOUNT column - MATCHES SERVICE TABLE'S AMOUNT WIDTH */
+#partsTable th:nth-child(4),
+#partsTable td:nth-child(4) {
+  width: 25%;  /* same as Service table's AMOUNT column */
+  min-width: 90px;
+}
+
+/* Delete button column - minimal */
+#partsTable th:last-child,
+#partsTable td:last-child {
+  width: 5%;
+  min-width: 35px;
+  text-align: center;
 }

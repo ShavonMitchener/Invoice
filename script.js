@@ -73,6 +73,7 @@ function addServiceRow(desc, amt) {
   calculateTotals();
 }
 
+// ========== UPDATED: addPartRow with better column sizing ==========
 function addPartRow(qty, desc, unitPrice, amt) {
   let body = document.getElementById("partsBody");
   let row = document.createElement("tr");
@@ -82,10 +83,10 @@ function addPartRow(qty, desc, unitPrice, amt) {
   let a = amt || "0.00";
   
   row.innerHTML = '<td><input type="number" class="qty" min="0" step="any" value="' + q + '"></td>' +
-                  '<td><textarea class="desc" placeholder="Part name" rows="2">' + d + '</textarea></td>' +
+                  '<td><textarea class="desc" placeholder="Part name" rows="2" style="width:100%; box-sizing:border-box;">' + d + '</textarea></td>' +
                   '<td><input type="number" class="unit-price" min="0" step="any" value="' + up + '"></td>' +
-                  '<td><input type="number" class="amt" min="0" step="any" value="' + a + '"></td>' +
-                  '<td><button class="delete-btn">✖</button></td>';
+                  '<td><input type="number" class="amt" min="0" step="any" value="' + a + '" style="width:100%; box-sizing:border-box;"></td>' +
+                  '<td><button class="delete-btn" style="margin:0 auto; display:block;">✖</button></td>';
   
   body.appendChild(row);
   

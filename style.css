@@ -1,4 +1,3 @@
-/* GLOBAL RESET */
 * {
   font-family: 'Courier Prime', monospace;
   box-sizing: border-box;
@@ -63,7 +62,7 @@ body {
   margin-bottom: 2px;
 }
 
-.info textarea {
+.info textarea, .info input {
   width: 95%;
   border: 1px solid #aaa;
   padding: 3px;
@@ -90,7 +89,6 @@ th, td {
   vertical-align: top;
 }
 
-/* Service table widths (with delete column) */
 #serviceTable th:first-child,
 #serviceTable td:first-child {
   width: 65%;
@@ -106,7 +104,6 @@ th, td {
   width: 15%;
 }
 
-/* Parts table widths (with delete column) */
 #partsTable th:first-child,
 #partsTable td:first-child {
   width: 10%;
@@ -114,12 +111,17 @@ th, td {
 
 #partsTable th:nth-child(2),
 #partsTable td:nth-child(2) {
-  width: 55%;
+  width: 45%;
 }
 
 #partsTable th:nth-child(3),
 #partsTable td:nth-child(3) {
-  width: 20%;
+  width: 15%;
+}
+
+#partsTable th:nth-child(4),
+#partsTable td:nth-child(4) {
+  width: 15%;
 }
 
 #partsTable th:last-child,
@@ -151,8 +153,8 @@ th, td {
   background: transparent;
 }
 
-.qty {
-  width: 80%;
+.qty, .unit-price {
+  width: 90%;
   border: none;
   padding: 3px;
   text-align: center;
@@ -247,6 +249,17 @@ button:hover {
   padding-top: 6px;
   margin-top: 5px;
   color: #000;
+}
+
+.nb-note {
+  margin-top: 15px;
+  padding: 6px;
+  background: #f9f9f9;
+  border-left: 4px solid #cc0000;
+  font-size: 0.7rem;
+  font-style: italic;
+  color: #555;
+  text-align: center;
 }
 
 .sign {
@@ -368,7 +381,6 @@ button:hover {
     display: none;
   }
   
-  /* Hide the delete button column when printing */
   #serviceTable th:last-child,
   #serviceTable td:last-child,
   #partsTable th:last-child,
@@ -392,20 +404,11 @@ button:hover {
     resize: none;
     overflow: visible;
   }
-
-  /* NB NOTE STYLES */
-.nb-note {
-  margin-top: 15px;
-  padding: 8px;
-  background: #f9f9f9;
-  border-left: 4px solid #cc0000;
-  font-size: 0.75rem;
-  font-style: italic;
-  color: #555;
-  text-align: center;
-}
-
-@media print {
+  
+  .deposit-section.hide-on-print {
+    display: none;
+  }
+  
   .nb-note {
     background: none;
     border-left: 1px solid #aaa;

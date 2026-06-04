@@ -21,7 +21,7 @@
   </div>
 
   <div class="info">
-    <div><label>Invoice No:</label> <span id="invoiceNo">001</span></div>
+    <div><label>Invoice No:</label> <input type="text" id="invoiceNo" value="001" style="width:100px"></div>
     <div><label>Date:</label> <span id="date"></span></div>
     <div><label>Customer Name:</label> <textarea id="custName" placeholder="Enter name" rows="1"></textarea></div>
     <div><label>Vehicle:</label> <textarea id="vehicle" placeholder="Enter vehicle" rows="1"></textarea></div>
@@ -40,7 +40,13 @@
   <h3>Parts</h3>
   <table class="items" id="partsTable">
     <thead>
-      <tr><th>QTY</th><th>DESCRIPTION</th><th>AMOUNT</th><th></th></tr>
+      <tr>
+        <th>QTY</th>
+        <th>DESCRIPTION</th>
+        <th>UNIT PRICE</th>
+        <th>AMOUNT</th>
+        <th></th>
+      </tr>
     </thead>
     <tbody id="partsBody"></tbody>
   </table>
@@ -50,7 +56,7 @@
     <div>Service Total: $<span id="serviceTotal">0.00</span></div>
     <div>Parts Total: $<span id="partsTotal">0.00</span></div>
     <div class="subtotal">TOTAL: $<span id="subtotal">0.00</span></div>
-    <div class="deposit-section">
+    <div class="deposit-section" id="depositSection">
       <label>DEPOSIT: $</label>
       <input type="number" id="depositAmount" min="0" step="0.01" value="0.00">
     </div>
@@ -62,7 +68,6 @@
     <textarea id="signedBy" placeholder="Enter name" rows="1"></textarea>
   </div>
 
-  <!-- NB NOTE -->
   <div class="nb-note">
     <strong>NB:</strong> This is not a government-issued invoice, therefore no GCT is applied.
   </div>
@@ -72,6 +77,8 @@
     <button id="printBtn">Print Invoice</button>
     <button id="newBtn">New Invoice</button>
     <button id="resetBtn">Reset Invoice No.</button>
+    <button id="exportBtn">📁 Export Receipts</button>
+    <button id="importBtn">📂 Import Receipts</button>
   </div>
 </div>
 
@@ -81,6 +88,8 @@
   <button id="searchBtn">Search</button>
   <div id="searchResults"></div>
 </div>
+
+<input type="file" id="importFile" style="display:none" accept=".json">
 
 <script src="script.js"></script>
 </body>

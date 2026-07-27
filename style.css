@@ -273,12 +273,13 @@ button:hover {
 .sign label {
   font-weight: bold;
   font-size: 0.85rem;
+  display: block;
+  margin-bottom: 3px;
 }
 
 .sign textarea {
   width: 60%;
   padding: 3px;
-  margin-top: 3px;
   border: 1px solid #aaa;
   font-family: 'Courier Prime', monospace;
   resize: vertical;

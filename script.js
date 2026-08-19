@@ -73,7 +73,6 @@ function addServiceRow(desc, amt) {
   calculateTotals();
 }
 
-// ========== UPDATED: addPartRow with better column sizing ==========
 function addPartRow(qty, desc, unitPrice, amt) {
   let body = document.getElementById("partsBody");
   let row = document.createElement("tr");
@@ -118,6 +117,7 @@ document.getElementById("saveBtn").addEventListener("click", function() {
     date: document.getElementById("date").textContent,
     customer: document.getElementById("custName").value.trim(),
     vehicle: document.getElementById("vehicle").value.trim(),
+    mileage: document.getElementById("mileage").value.trim(),
     fromStaff: document.getElementById("fromName").value.trim(),
     signedBy: document.getElementById("signedBy").value.trim(),
     deposit: document.getElementById("depositAmount").value,
@@ -167,6 +167,7 @@ function loadReceiptIntoForm(r) {
   document.getElementById("invoiceNo").value = r.invoiceNo;
   document.getElementById("custName").value = r.customer || "";
   document.getElementById("vehicle").value = r.vehicle || "";
+  document.getElementById("mileage").value = r.mileage || "";
   document.getElementById("fromName").value = r.fromStaff || "";
   document.getElementById("signedBy").value = r.signedBy || "";
   document.getElementById("depositAmount").value = r.deposit || "0.00";
@@ -207,7 +208,7 @@ document.getElementById("searchBtn").addEventListener("click", function() {
     div.className = "found-receipt";
     div.innerHTML = '<strong>Invoice #' + r.invoiceNo + '</strong> | ' + r.date + '<br>' +
                     'Customer: ' + r.customer + ' | Vehicle: ' + r.vehicle + '<br>' +
-                    'From: ' + (r.fromStaff || "") + ' | Signed: ' + (r.signedBy || "N/A") + '<br>' +
+                    'Mileage: ' + (r.mileage || "N/A") + ' | From: ' + (r.fromStaff || "") + ' | Signed: ' + (r.signedBy || "N/A") + '<br>' +
                     'Deposit: $' + (r.deposit || "0.00") + ' | Grand Total: $' + r.grandTotal + '<br>' +
                     '<button class="viewBtn">Load Invoice</button> ' +
                     '<button class="deleteBtn">Delete</button><hr>';
@@ -290,6 +291,7 @@ document.getElementById("newBtn").addEventListener("click", function() {
   
   document.getElementById("custName").value = "";
   document.getElementById("vehicle").value = "";
+  document.getElementById("mileage").value = "";
   document.getElementById("fromName").value = "";
   document.getElementById("signedBy").value = "";
   document.getElementById("depositAmount").value = "0.00";
